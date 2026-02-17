@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+//nom, email, téléphone, statut_paiement, date_maintenance, licences_count
+use Illuminate\Database\Eloquent\Model;
+
+class Client extends Model
+{
+  /* protected $filliable=[
+        'nom',
+        'email',
+        'telephone',
+        'statut_paiement',
+        'date_maintenance',
+        'licences_count',
+    ]
+    */
+
+}
