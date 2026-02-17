@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Faker\Guesser\Name;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+//use Faker\Guesser\Name;
+//use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use Spatie\Permission\Commands\AssignRole;
+///use Spatie\Permission\Commands\AssignRole;
 use Spatie\Permission\Models\Role;
-use function Laravel\Prompts\password;
+//use function Laravel\Prompts\password;
 
 class RoleSeeder extends Seeder
 {
