@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-  /* protected $filliable=[
+   protected $fillable=[
         'nom',
         'email',
         'telephone',
         'statut_paiement',
         'date_maintenance',
-        'licences_count',
-    ]
-    */
+        'licences_count'
+    ];
+    
 
 }
