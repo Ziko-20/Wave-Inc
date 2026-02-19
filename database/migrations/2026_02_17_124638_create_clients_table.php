@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('email');
             $table->string('telephone');
-            $table->enum('statut_paiement',['payé', 'en attente', 'en retard']);
+            $table->enum('statut_paiement',['payé', 'en_attente', 'en_retard']);
             $table->date('date_maintenance');
             $table->integer('licences_count');
 
