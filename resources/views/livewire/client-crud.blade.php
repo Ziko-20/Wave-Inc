@@ -1,3 +1,113 @@
+<div>
+    @if ($Form)
+<div class=" min-h-screen
+  bg-slate-100
+  flex
+  items-center
+  justify-center
+  p-4
+  font-sans"
+>
+{{-- retourner a la page de la liste clients --}}
+<button wire:click="set('Form',false)">Retour</button>
+
+<div class="bg-white rounded-2xl w-full max-w-lg p-10 ">
+
+    <div class="flex items-center gap3  pb-6 mb-8 border-b border-slate-200 ">
+        <!--logoo client track-->
+        <div class=" w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+
+        </div>
+        <h1 class="text-xl font-bold text-blue-900">Ajouter<span class="text-green-500"> Client</span>
+        </h1></div>
+        
+        
+        
+        <!-- formulaire -->
+     <div class="flex flex-col gap-6">
+
+
+           {{--  nom prenom --}}
+           <div class="flex flex-col gap-1.5">
+            <label for="" class="text-xs font-semibold">Nom & Prénom</label>
+            <div class="relative">
+                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"> <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <input type="text"
+              placeholder="Entrer le Nom & Prénom"
+              class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+               text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+            </div>
+{{--  Email --}}
+            <label for="" class="text-xs font-semibold">Adresse Email</label>
+
+            <div class="relative">
+<svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.1 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+                        <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>
+          </svg>
+              <input type="text"
+              placeholder="exemple@gmail.com"
+              class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+               text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+            </div>
+{{-- Tell--}}
+            <label for="" class="text-xs font-semibold">Téléphone </label>
+            <div class="relative">
+                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"> <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <input type="text"
+              placeholder="06 __ __ __ __"
+              class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+               text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+            </div>
+{{-- status   --}}
+            <label for="" class="text-xs font-semibold">Statut Paiement</label>
+            <div class="relative">
+
+                          <select type="text"
+              placeholder="Entrer le Nom & Prénom"
+              class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+               text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+                <option value="">✓ Payé</option>
+                <option value="">⏳ En attente</option>
+                <option value="">✗ En retard </option>
+            </select>
+            
+            </div>
+{{--  date--}}
+            <label for="" class="text-xs font-semibold">Date</label>
+            <div class="relative">
+<svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+                          <input type="date"
+              placeholder="Entrer le Nom & Prénom"
+              class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+               text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+            </div>
+           
+        </div>
+           
+
+
+      </div>
+    
+
+    
+</div>
+</div>
+
+
+
+
+
+
+
+    
+@elseif (!$Form)
+
+{{-- afffichage de clients --}}
+
 <div class="min-h-screen bg-gray-50 p-8">
 
     <div class="mb-8">
@@ -6,13 +116,13 @@
 
     
     <div class="flex flex-wrap justify-between mb-8 sm:flex-row sm:justify-between mb-8">
-        <a href="#"
+        <button wire:click="ShowForm"
            class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
             Ajouter client
-        </a>
+        </button>
         
         <select href=""
         class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
@@ -33,13 +143,12 @@
             <thead class="sticky top-0 bg-gray-50 z-10">
                 <tr class="bg-gray-50 border-b border-gray-10 z-10">
                     
-                    <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4">Nom et Prénom</th>
+                    <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4">Nom </th>
                     <th class="text-left text-xs  font-semibold text-gray-400 uppercase tracking-wider px-6 py-4">Email</th>
                     <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4">Téléphone</th>
                     <th class="text-left text-xs   font-semibold text-gray-400  uppercase tracking-wider px-6 py-4 ">Statut</th>
                     <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4">Date maintenance</th>
                     <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider  px-6    py-4 ">Licences</th>
-
                     <th colspan="2" class="text-center text-xs  font-semibold text-gray-400 uppercase tracking-wider px-6 py-4" >Actions</th>
                 </tr>
             </thead>
@@ -90,21 +199,21 @@
                             {{ $client->licences_count }}
                         </span>
                     </td>
-                    <td><a href=""
+                    <td><button  
            class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
             </svg>
             Modifier
-        </a></td>
+        </button></td>
             <td>
-                <a href=""
+                <button wire:click="ConfirmerLaSuppression({{ $client->id }})"
            class="flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
             </svg>
             
-        </a>
+        </button>
             </td>
 
                 </tr>
@@ -113,5 +222,42 @@
         </table>
         </div>
     </div>
+
+</div>
+    @if ($showDelete)
+    <div class="fixed inset-0 bg-black/40 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-xl w-full max-w-md">
+            <p>Tu es sûr de supprimer ?</p>
+
+            <button wire:click="delete" class=" bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                Oui supprimer
+            </button>
+            <button wire:click="$set('showDelete', false)"
+            class="bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+            >
+                Annuler
+            </button>
+        </div>
+    </div>
+        
+    @endif
+
+
+
+@endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </div>
