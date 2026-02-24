@@ -12,7 +12,7 @@ class ClientCrud extends Component
     public $nom='';
     public $email='';
     public $telephone='';
-    public $statut_paiement='en attente';
+    public $statut_paiement='en_attente';
     public $date_maintenance=null;
     public $licences_count='0';
 
@@ -20,18 +20,24 @@ class ClientCrud extends Component
 
     protected $rules = [
         'nom' => 'required|string|min:3|max:200',
-        'email' => 'required|email|unique:clients,email',
+        'email' => 'required|email|max:200',
         'telephone' => 'required|string|min:8|max:20',
-        'statut_paiement' => 'required|in:payé,en attente,en retard',
+        'statut_paiement' => 'required|in:payé,en_attente,en_retard',
         'date_maintenance' => 'nullable|date',
-        'licences_count' => 'required|integer|min:1|max:999',
+        'licences_count' => 'required|integer|min:0|max:500',
     ];
 
     public $delete_id=null;
     public $showDelete=false;
+
+   
+    public $Id_client=null;
+    public $showUpdateForm=false;
     
 
+    public $statusVal;
 
+    public $Nom_a_Chercher;
 
     public function loadClients(){
         $this->clients=Client::all();
@@ -42,7 +48,6 @@ class ClientCrud extends Component
     public function mount(){
         $this->loadClients();
     }     
-    
     public function ShowForm(){
         $this->RenisialisationForm();
         $this->Form=true;
@@ -51,6 +56,7 @@ class ClientCrud extends Component
          
         $this->Form=false;
     }
+    
     public function RenisialisationForm(){
         $this->reset(
             [
@@ -62,7 +68,7 @@ class ClientCrud extends Component
         'licences_count'
             ]
         );
-        $this->statut_paiement='en attente';
+        $this->statut_paiement='en_attente';
         
         
 
@@ -80,6 +86,8 @@ class ClientCrud extends Component
 
 
     //supression
+
+    
     public function ConfirmerLaSuppression($id){
         $this->delete_id=$id;
         $this->showDelete=true;
@@ -97,9 +105,100 @@ class ClientCrud extends Component
     }
 
 
-     public function render()
-    {
+    
+    //modif
+    public function UpdateForm($id){
+        //gestion de l erreur si l id est introuvable
+        $client=Client::findOrFail($id);
+        //les champs
+        $this->Id_client=$client->id;
+        $this->nom=$client->nom;
+        $this->email=$client->email;
+        $this->telephone=$client->telephone;
+        $this->statut_paiement=$client->statut_paiement;
+        $this->date_maintenance=$client->date_maintenance;
+        $this->licences_count=$client->licences_count;
+
+        
+
+
+
+
+        //affivhage du formulaire
+        $this->showUpdateForm=true;
+
+    }
+    public function Update($Id_client){
+
+   $valide=$this->validate(['nom' => 'required|string|min:3|max:200',
+        'email' => 'required|email|max:200',
+        'telephone' => 'required|string|min:8|max:20',
+        'statut_paiement' => 'required|in:payé,en_attente,en_retard',
+        'date_maintenance' => 'nullable|date',
+        'licences_count' => 'required|integer|min:0|max:500',]);
+
+    $client=Client::findOrFail($Id_client);
+
+    $client->update($valide);
+
+    $this->loadClients();
+
+
+
+
+
+        $this->showUpdateForm=false;
+//renisialiation du formulaire de moodification
+    $this->reset([
+        'nom',
+        'email',
+        'telephone',
+        'statut_paiement',
+        'date_maintenance',
+        'licences_count'
+            ]);
+            $this->statut_paiement='en_attente';
+            $this->licences_count=0;
+             
+        //success('Success','Votre modification est effectue');
+        session()->flash('Success','Votre modification est effectue');
+    }
+    public function CacherFormUpdate(){
+        $this->showUpdateForm=false;
+    }
+ //filtration par status
+    public function Filter(){
+        /* $this->statusVal='statut_paiement'; */
+       
+        /* $this->statusVal='statut_paiement'; */
+        if($this->statusVal && $this->statusVal!='all'){
+
+        $this->clients=Client::where('statut_paiement',$this->statusVal)->get();
+
+        }else{
+            $this->clients=Client::all();
+
+
+        }
+    }
+    /* public function Chercher(){
+       if( $this->Nom_a_Chercher){
+        /* 'nom',$this->Nom_a_Chercher */
+           /* 
+        
+       }
+
+    } */ 
+      
+ 
+ 
+ 
+    public function render()
+    {   
+        //logic bour barre de recherche
+         $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
+
+
         return view('livewire.client-crud');
     }
-
 }
