@@ -37,12 +37,15 @@ class ClientCrud extends Component
 
     public $statusVal;
 
-    public $Nom_a_Chercher;
+    public $Nom_a_Chercher='';
 
+    public $clientselectionner;
+    public $payments;
+    public $showHistory=false;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function loadClients(){
         $this->clients=Client::all();
-
-        
 
          }
     public function mount(){
@@ -166,6 +169,8 @@ class ClientCrud extends Component
     public function CacherFormUpdate(){
         $this->showUpdateForm=false;
     }
+
+
  //filtration par status
     public function Filter(){
         /* $this->statusVal='statut_paiement'; */
@@ -189,10 +194,27 @@ class ClientCrud extends Component
        }
 
     } */ 
-      
+
+      /* HISTORIQUE DE PAYMEENTS */
+      public function AffHistorique($clientId){
+
+
+        $client=Client::find($clientId);
+        $this->clientselectionner=$client;
+        
+        $this->payments=$client->payments;
+        $this->showHistory=true;
+        
+
+      }
+    public function CacherHistorique(){
+
+        
+    $this->showHistory=false;
+
+    }
  
- 
- 
+ //////////////////////////////
     public function render()
     {   
         //logic bour barre de recherche

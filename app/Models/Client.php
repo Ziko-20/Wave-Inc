@@ -14,6 +14,10 @@ class Client extends Model
         'date_maintenance',
         'licences_count'
     ];
+
+    public function payments(){
+        return $this->hasMany(Payment::class);
+    }
     
 
 }

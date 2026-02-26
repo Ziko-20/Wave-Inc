@@ -123,6 +123,8 @@
         
     </div>
     </div>
+    @elseif($showHistory)
+    <div>heloooooooooo</div>
             
         
 
@@ -371,6 +373,16 @@
                             <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-700 text-xs font-bold w-8 h-8 rounded-lg">
                                 {{ $client->licences_count }}
                             </span>
+                        </td>
+                        <td>
+                            <button wire:click="AffHistorique({{ $client->id }})"
+            class="flex items-center gap-2 bg-teal-100  text-teal-600 hover:bg-teal-200 font-semibold text-sm px-5 py-2.5 rounded-xl border border-black-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"  stroke-linejoin="round"class="w-5 h-5">
+  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+  <circle cx="12" cy="12" r="3"/>
+</svg>
+                
+            </button>
                         </td>
                         <td>
                             {{-- MODIFICATION --}}
