@@ -8,8 +8,8 @@ class Payment extends Model
 {
     protected $fillable=[
         'montant',
-        'date',
-        'status',
+        'date_payment',
+        'status_payment',
         'client_id'
 
 

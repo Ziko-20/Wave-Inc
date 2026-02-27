@@ -1,6 +1,16 @@
     <div>
         @if ($showUpdateForm)
-        <div class=" min-h-screen
+        <div class="min-h-screen">
+<div class="flex   ">
+        <div class="flex flex-row py-8 pl-5">
+            <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400"
+            wire:click="CacherFormUpdate">
+                ← Retour à la liste
+            </button>
+        </div>
+ </div>
+
+        <div class=" 
     bg-slate-100
     flex
     items-center
@@ -9,18 +19,8 @@
     font-sans"
     >
     {{-- retourner a la page de la liste clients --}}
-    <button class="">
-        <svg xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 24 24"   width="48" height="24"fill="none" stroke="black"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class=""
-        wire:click="CacherFormUpdate">
-    <path d="M19 12H5" />
-    <path d="M12 19l-7-7 7-7" />
-    </svg>
-
-
-    </button>
-    {{-- <button >Retour</button> --}}
+  
+   
 
     <div class="bg-white rounded-2xl w-full max-w-lg p-10 ">
 
@@ -123,24 +123,169 @@
         
     </div>
     </div>
+</div>
+                             {{-- PARTIE HISTORIQUE PAIMENTSS --}}
+
     @elseif($showHistory)
-    <div>heloooooooooo</div>
+    <div class="min-h-screen">
+    <div class="flex   ">
+        <div class="flex flex-row py-8 pl-5">
+            <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400"
+            wire:click="CacherHistorique">
+                ← Retour à la liste
+            </button>
+        </div>
+ </div>
+
+ <div class="flex flex-col">
+{{-- Profil --}}
+    <div class="justify-center">
+
+        @if ($clientselectionner)
             
         
+            <center>
+        
+        <div class="w-48 h-48 rounded-full bg-indigo-100 text-indigo-600 font-bold text-7xl flex items-center justify-center flex-shrink-0">
+              {{ strtoupper(substr($clientselectionner->nom, 0, 1 )) }}
+                                </div>
+                                
+                                <p class="pt-4">{{ $clientselectionner->nom }}</p>
+            </center>
+    </div>
+{{-- Tableau d historiques   --}}  
+    <div class="flex-col">
+       
+            
+        <div class="flex-row  rounded-xl">
+                    <table class=" border w-4/5 mx-auto mt-4 ">
+            <thead class=" ">
+                
+                
+                <tr class="border ">
+                        <th class="text-xl text-blue-800 text-center" colspan="3"> Historique des paiements</th>
+                       </tr>
+                       <tr>
+                    <td class="text-xs font-semibold     text-gray-400 uppercase  px-6 py-4 ">Montant</td>
+                    <td class="text-xs font-semibold   text-gray-400 uppercase px-6 py-4 ">Date</td>
+                    <td class="text-xs font-semibold   text-gray-400 uppercase  px-6 py-4 ">Statut</td>
+                </tr>
+            </thead>
+            <tbody>
+                 @foreach ($clientselectionner -> payments as $payment )
+                <tr class="border"> 
+                   
+                        
+                    
+                    <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment->montant}} MAD</td>
+                    <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment ->date}} </td>
 
+                    <td class="bg-slate-50 ">
+                        @if($payment->statut == 'payé')
+                                <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+                                    Payé
+                                </span>
+                            @elseif($payment->statut == 'en_attente')
+                                <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></span>
+                                    En attente
+                                </span>
+                            @elseif($payment->statut == 'en_retard')
+                                <span class="inline-flex items-center gap-1.5 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"></span>
+                                    En retard
+                                </span>
+                            @endif
+                        </td>
+
+                   
+                </tr>     @endforeach
+
+            </tbody>
+            
+        </table>
+       
+    </div>
+{{-- Contacter client  --}}   
+    <div class="flex flex-col items-center justify-between mt-12 gap-5">
+        <div class="text-2xl text-green-600">Contacter le Client <span class="text-blue-800 ">{{ $clientselectionner->nom }}</span></div>
+
+        <div class="relative bg-white w-48 rounded-xl">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.1 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg> 
+          <p class="text-gray-600 pl-8 " id="telephone">  {{ $clientselectionner->telephone }}</p>
+
+          <button 
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black"
+           onclick="CopieData(this, 'telephone')"
+          >
+<span class="copyIcon material-symbols-outlined pt-1.5">copy_all</span>
+{{-- Icon qui apparait apres copier le contenu --}}
+<span class="copiedIcon material-symbols-outlined hidden">check</span>
+  
+</button>
+
+        </div>
+
+        <div class="relative bg-white w-72 rounded-xl">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="m2 7 10 7 10-7"/>
+    </svg>
+            
+            <p class="text-gray-600 pl-8" id="email">{{ $clientselectionner-> email }}</p>
+            <button 
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black"
+             onclick="CopieData(this, 'email')"       >
+  <span class="copyIcon material-symbols-outlined pt-1.5">
+copy_all
+</span>
+
+{{-- Icon qui apparait apres copier le contenu --}}
+<span class="copiedIcon material-symbols-outlined hidden">
+check
+</span>
+
+</button>
+
+        
+        </div>
+        
+
+    </div>
+    
+ </div>
+@endif
+        </div>
+        
+   </div>
+
+
+
+
+            
+        {{-- ///////////////////////////////////// --}}
+
+
+
+
+{{-- AJOUTER CLIENT --}}
         @elseif ($Form)
-    <div class=" min-h-screen
-    bg-slate-100
-    flex
-    items-center
-    justify-center
-    p-4
-    font-sans"
-    >
-    {{-- retourner a la page de la liste clients --}}
-    <button wire:click="UnshowForm">Retour</button>
+<div class="min-h-screen">
+        <div class="flex gap-0">
+        <div class="flex flex-row py-8 pl-5">
+            <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400 hover:text-opacity-50"
+            wire:click="UnshowForm">
+                ← Retour à la liste
+            </button>
+        </div>
+ </div>
+    <div class="  bg-slate-100  flex items-center  justify-center   font-sans">
+   
 
-    <div class="bg-white rounded-2xl w-full max-w-lg p-10 ">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-10 mt">
 
         <div class="flex items-center gap3  pb-6 mb-8 border-b border-slate-200 ">
             <!--titre-->
@@ -251,7 +396,7 @@
 
 
 
-        
+   </div>     
     @elseif (!$Form)
 
     {{-- afffichage de clients --}}
@@ -263,7 +408,7 @@
         </div>
 
         
-        <div class="flex flex-wrap justify-between mb-8 sm:flex-row sm:justify-between mb-8">
+        <div class="flex flex-wrap justify-between mb-8 sm:flex-row sm:justify-between">
             <button wire:click="ShowForm"
             class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -285,7 +430,7 @@
             <input 
             wire:model.live="Nom_a_Chercher"
             {{-- wire:model="Nom_a_Chercher" --}}
-            type="text" class="rounded-xl font-semibold text-sm font-semibold hover:placeholder:text-gray-150"
+            type="text" class="rounded-xl font-semibold text-sm  hover:placeholder:text-gray-150"
             placeholder="Tapez le nom du client"
             >
             {{-- <button
@@ -295,17 +440,16 @@
         </div>
             {{-- filtration par status --}}
             <select 
-            wire:model="statusVal"
-            wire:change="Filter"
-
+            {{-- wire:change="statusChange({{ $statusVal }})" --}}
+           {{--  wire:change="Filter" --}}
+            wire:change="statusVal($event.target.value)"
             class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
             >
-            <option value="all">Tous</option>
-            <option value="payé">payé</option>
-
-            <option value="en_attente">en attente</option>
-            <option value="en_retard">en retard</option>
-                
+            <option value="all" >Tous</option>
+            <option value="payé" >payé</option>
+            <option value="en_attente" >en attente</option>
+            <option value="en_retard"  >en retard</option>
+            
         </select>
             
         </div>
@@ -324,10 +468,10 @@
                         <th class="text-left text-xs   font-semibold text-gray-400  uppercase tracking-wider px-6 py-4 ">Statut</th>
                         <th class="text-left text-xs font-semibold   text-gray-400 uppercase tracking-wider px-6 py-4">Date maintenance</th>
                         <th class="text-left text-xs font-semibold   text-gray-400 uppercase tracking-wider  px-6    py-4 ">Licences</th>
-                        <th colspan="2" class="text-center text-xs   font-semibold text-gray-400 uppercase tracking-wider px-6 py-4" >Actions</th>
+                        <th colspan="3"  class="text-center text-xs   font-semibold text-gray-400 uppercase tracking-wider px-6 py-4" >Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
+                <tbody class="">
                     @foreach ($clients as $client)
                     <tr class="hover:bg-indigo-50/40 transition-colors duration-150 group">
 

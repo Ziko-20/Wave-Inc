@@ -35,11 +35,11 @@ class ClientCrud extends Component
     public $showUpdateForm=false;
     
 
-    public $statusVal;
+    public $statusVal='all';
 
     public $Nom_a_Chercher='';
 
-    public $clientselectionner;
+    public $clientselectionner=null;
     public $payments;
     public $showHistory=false;
 
@@ -50,6 +50,9 @@ class ClientCrud extends Component
          }
     public function mount(){
         $this->loadClients();
+
+        //filtration3
+        $this->Filter();
     }     
     public function ShowForm(){
         $this->RenisialisationForm();
@@ -166,25 +169,33 @@ class ClientCrud extends Component
         //success('Success','Votre modification est effectue');
         session()->flash('Success','Votre modification est effectue');
     }
+
     public function CacherFormUpdate(){
         $this->showUpdateForm=false;
     }
-
-
+   
  //filtration par status
+
+    
     public function Filter(){
         /* $this->statusVal='statut_paiement'; */
        
-        /* $this->statusVal='statut_paiement'; */
-        if($this->statusVal && $this->statusVal!='all'){
+         /* $this->statusVal='statut_paiement';  */
+         if($this->statusVal && $this->statusVal!='all'){
 
         $this->clients=Client::where('statut_paiement',$this->statusVal)->get();
 
         }else{
             $this->clients=Client::all();
-
-
         }
+        
+    }
+    
+     public function statusChange($value){
+        
+            $this->statusVal=$value;
+            $this->Filter();
+        
     }
     /* public function Chercher(){
        if( $this->Nom_a_Chercher){
@@ -206,7 +217,7 @@ class ClientCrud extends Component
         $this->showHistory=true;
         
 
-      }
+        }
     public function CacherHistorique(){
 
         
@@ -219,7 +230,7 @@ class ClientCrud extends Component
     {   
         //logic bour barre de recherche
          $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
-
+            
 
         return view('livewire.client-crud');
     }
