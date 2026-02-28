@@ -20,10 +20,10 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->decimal('montant');
-            $table->string('date_payment');
+            $table->decimal('montant',10,2);
+            $table->date('date_payment');
             $table->enum('status_payment',['payé','en_attente','en_retard']);
-            $table->foreignId('client_id');
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

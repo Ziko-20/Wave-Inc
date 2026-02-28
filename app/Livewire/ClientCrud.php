@@ -51,8 +51,7 @@ class ClientCrud extends Component
     public function mount(){
         $this->loadClients();
 
-        //filtration3
-        $this->Filter();
+        
     }     
     public function ShowForm(){
         $this->RenisialisationForm();
@@ -177,26 +176,7 @@ class ClientCrud extends Component
  //filtration par status
 
     
-    public function Filter(){
-        /* $this->statusVal='statut_paiement'; */
-       
-         /* $this->statusVal='statut_paiement';  */
-         if($this->statusVal && $this->statusVal!='all'){
-
-        $this->clients=Client::where('statut_paiement',$this->statusVal)->get();
-
-        }else{
-            $this->clients=Client::all();
-        }
-        
-    }
     
-     public function statusChange($value){
-        
-            $this->statusVal=$value;
-            $this->Filter();
-        
-    }
     /* public function Chercher(){
        if( $this->Nom_a_Chercher){
         /* 'nom',$this->Nom_a_Chercher */
@@ -226,11 +206,23 @@ class ClientCrud extends Component
     }
  
  //////////////////////////////
-    public function render()
-    {   
+    public function render(){       
+        
+    
+    $query = Client::query();
+
+
+    if (!empty($this->Nom_a_Chercher)) {
+        $query->where('nom', 'like', '%' . $this->Nom_a_Chercher . '%');
+    }
+      if ($this->statusVal !== 'all') {
+        $query->where('statut_paiement', $this->statusVal);
+    }
+        $this->clients = $query->get();
+
         //logic bour barre de recherche
-         $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
-            
+/*          $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
+ */            
 
         return view('livewire.client-crud');
     }

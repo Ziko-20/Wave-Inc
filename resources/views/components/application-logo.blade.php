@@ -1,2 +1,2 @@
-<img src="{{ asset('imgs/logoV2BackgroundRemoved.png') }}" alt="Logo" class="h-44    w-auto">
+<img src="{{ asset('imgs/LogoLatestVersion.png') }}" alt="Logo" class="h-44    w-auto">
     

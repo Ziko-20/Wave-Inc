@@ -178,20 +178,20 @@
                         
                     
                     <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment->montant}} MAD</td>
-                    <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment ->date}} </td>
+                    <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment ->date_payment}} </td>
 
                     <td class="bg-slate-50 ">
-                        @if($payment->statut == 'payé')
+                        @if($payment->status_payment == 'payé')
                                 <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
                                     Payé
                                 </span>
-                            @elseif($payment->statut == 'en_attente')
+                            @elseif($payment->status_payment == 'en_attente')
                                 <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></span>
                                     En attente
                                 </span>
-                            @elseif($payment->statut == 'en_retard')
+                            @elseif($payment->status_payment == 'en_retard')
                                 <span class="inline-flex items-center gap-1.5 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"></span>
                                     En retard
@@ -442,7 +442,7 @@ check
             <select 
             {{-- wire:change="statusChange({{ $statusVal }})" --}}
            {{--  wire:change="Filter" --}}
-            wire:change="statusVal($event.target.value)"
+            wire:model.live="statusVal"
             class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
             >
             <option value="all" >Tous</option>
