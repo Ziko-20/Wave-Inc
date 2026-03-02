@@ -4,9 +4,10 @@ namespace App\Livewire;
 use App\Models\Client;
 
 use Livewire\Component;
-
+use Livewire\Attributes\Layout;
 class ClientCrud extends Component
 {
+    #[Layout('layouts.app')]
     public $clients=[];
 
     public $nom='';
@@ -125,10 +126,6 @@ class ClientCrud extends Component
         $this->licences_count=$client->licences_count;
 
         
-
-
-
-
         //affivhage du formulaire
         $this->showUpdateForm=true;
 
@@ -204,7 +201,9 @@ class ClientCrud extends Component
     $this->showHistory=false;
 
     }
- 
+    
+///////////////////////////////
+   
  //////////////////////////////
     public function render(){       
         

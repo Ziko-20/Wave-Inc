@@ -401,43 +401,40 @@ check
 
     {{-- afffichage de clients --}}
 
-    <div class="min-h-screen bg-gray-50 p-8">
 
-        <div class="mb-8">
-            <h2 class="text-3xl font-extrabold text-gray-800 tracking-tight">La Liste des Clients</h2>
-        </div>
-
-        
-        <div class="flex flex-wrap justify-between mb-8 sm:flex-row sm:justify-between">
-            <button wire:click="ShowForm"
+     <button wire:click="ShowForm"
             class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
                 Ajouter client
             </button>
+    <div class="min-h-screen bg-gray-50 p-8">
+{{-- TITRE --}}
+        <div class="mb-8">
+            <h2 class="text-3xl font-extrabold text-gray-800 tracking-tight">La Liste des Clients</h2>
+        </div>
+
+        {{-- Boutton ajouter --}}
+        <div class="flex flex-row justify-between">
+            
+
+            
             
             {{-- BARRE DE RECHERCHE --}}
-            <div class="relative">
-                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-    <circle cx="11" cy="11" r="8"/>
-    <path d="m21 21-4.35-4.35"/>
-    </svg> 
-
-
-
-    
-            <input 
-            wire:model.live="Nom_a_Chercher"
-            {{-- wire:model="Nom_a_Chercher" --}}
-            type="text" class="rounded-xl font-semibold text-sm  hover:placeholder:text-gray-150"
-            placeholder="Tapez le nom du client"
-            >
-            {{-- <button
-            wire:click="Chercher">
-                Chercher
-            </button> --}}
+             <div class="relative group">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <span class="material-symbols-outlined text-gray-400 group-focus-within:text-indigo-500 transition-colors">
+                search
+            </span>
         </div>
+        <input 
+            wire:model.live="Nom_a_Chercher"
+            type="text" 
+            class="block w-64 pl-10 pr-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-gray-400"
+            placeholder="Rechercher un client..."
+        >
+    </div>
             {{-- filtration par status --}}
             <select 
             {{-- wire:change="statusChange({{ $statusVal }})" --}}
@@ -455,7 +452,7 @@ check
         </div>
 
         
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-8">
 
             <div class="max-h-96 overflow-y-auto">
             <table class="w-full text-sm">
@@ -518,9 +515,20 @@ check
                                 {{ $client->licences_count }}
                             </span>
                         </td>
+
+                        {{-- PAIMENT --}}
+                        {{-- <td>
+                            <button 
+                            wire:click=""
+                            class="flex items-center justify-center gap-2 bg-teal-100  text-teal-600 hover:bg-teal-200 font-semibold text-sm px-5 py-2.5 rounded-xl border border-black-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                               <span class="material-symbols-outlined w-5 h-5 ">attach_money</span>
+                            </button>
+                    
+                        </td> --}}
                         <td>
+
                             <button wire:click="AffHistorique({{ $client->id }})"
-            class="flex items-center gap-2 bg-teal-100  text-teal-600 hover:bg-teal-200 font-semibold text-sm px-5 py-2.5 rounded-xl border border-black-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+            class="flex items-center gap-2  bg-teal-100  text-teal-600 hover:bg-teal-200 font-semibold text-sm px-5 py-2.5 rounded-xl border border-black-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"  stroke-linejoin="round"class="w-5 h-5">
   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
   <circle cx="12" cy="12" r="3"/>
@@ -528,6 +536,7 @@ check
                 
             </button>
                         </td>
+
                         <td>
                             {{-- MODIFICATION --}}
                             <button  
@@ -549,6 +558,7 @@ check
                 
             </button>
                 </td>
+                
 
                     </tr>
                     @endforeach
