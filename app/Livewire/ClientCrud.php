@@ -5,17 +5,19 @@ use App\Models\Client;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\WithPagination;
 class ClientCrud extends Component
 {
+    use WithPagination;
+    
     #[Layout('layouts.app')]
-    public $clients=[];
-
+  /*  public $clients=[];  */
     public $nom='';
     public $email='';
     public $telephone='';
     public $statut_paiement='en_attente';
     public $date_maintenance=null;
-    public $licences_count='0';
+    public $licences_count=0;
 
     public $Form=false;
 
@@ -39,21 +41,23 @@ class ClientCrud extends Component
     public $statusVal='all';
 
     public $Nom_a_Chercher='';
-
+/* PAIMENTS */
     public $clientselectionner=null;
+
     public $payments;
     public $showHistory=false;
+//ajouter paiment
+    public $PaymentForm=false;
+    public $IdPaimentClient;
+    
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public $utilisateurIntrouvable=null;
+///////////////////////////////////////// ////////////////////////////////////////////////////////////////////////
     public function loadClients(){
         $this->clients=Client::all();
-
+  
          }
-    public function mount(){
-        $this->loadClients();
-
-        
-    }     
+       
     public function ShowForm(){
         $this->RenisialisationForm();
         $this->Form=true;
@@ -79,15 +83,18 @@ class ClientCrud extends Component
         
 
     }
+    
     public function Ajouter(){
         $valide=$this->validate();
 
 
         Client::create($valide);
-        $this->UnshowForm();
-        $this->loadClients();
+        
+        /* $this->loadClients(); */ 
+       
 
-        session()->flash('success','votre client a ete ajouter avec succes');
+    session()->flash('created','Client ajouté avec succès');
+     $this->UnshowForm();
     }
 
 
@@ -104,8 +111,8 @@ class ClientCrud extends Component
         $this->showDelete=false;
         $this->delete_id=null;
 
-        $this->loadClients();
-        session()->flash('succes','le client est supprimer');
+        /* $this->loadClients(); */
+       session()->flash('deleted','Le client a été supprimé avec succès');
 
 
     }
@@ -130,6 +137,7 @@ class ClientCrud extends Component
         $this->showUpdateForm=true;
 
     }
+
     public function Update($Id_client){
 
    $valide=$this->validate(['nom' => 'required|string|min:3|max:200',
@@ -143,7 +151,7 @@ class ClientCrud extends Component
 
     $client->update($valide);
 
-    $this->loadClients();
+    /* $this->loadClients(); */
 
 
 
@@ -163,7 +171,8 @@ class ClientCrud extends Component
             $this->licences_count=0;
              
         //success('Success','Votre modification est effectue');
-        session()->flash('Success','Votre modification est effectue');
+        
+        session()->flash('updated', 'Client modifié avec succès');
     }
 
     public function CacherFormUpdate(){
@@ -201,7 +210,32 @@ class ClientCrud extends Component
     $this->showHistory=false;
 
     }
-    
+    public function updatingNomAChercher()
+{
+    $this->resetPage();
+}
+/*     public function FormPaiment($IdPaimentClient ){
+        $this->IdPaimentClient->$id;
+        $this->clientSelPaiment=Client::findOrFail($IdPaimentClient );
+        $this->id_paiment=null;
+        $this->montant='';
+        $this->date_payment=now();
+        $this->status_payment='en attente';
+        $this->PaymentForm=true;
+    }
+    public function AjouterPaiment(){
+       
+
+
+
+
+         $this->validate([
+              'montant' => 'required|numeric|min:0',
+              'date_paiement' => 'required|date',
+              'statut_payment' => 'required|in:payé,en_attente,en_retard',
+              'notes' => 'nullable|string|max:500',
+         ]);
+    }  */
 ///////////////////////////////
    
  //////////////////////////////
@@ -209,20 +243,26 @@ class ClientCrud extends Component
         
     
     $query = Client::query();
-
-
+    $this->utilisateurIntrouvable =null;
     if (!empty($this->Nom_a_Chercher)) {
         $query->where('nom', 'like', '%' . $this->Nom_a_Chercher . '%');
+       
     }
       if ($this->statusVal !== 'all') {
         $query->where('statut_paiement', $this->statusVal);
     }
-        $this->clients = $query->get();
+
+     $clients = $query->paginate(15);
+
+        if(!empty($this->Nom_a_Chercher)&& $clients->isEmpty()){
+            $this->utilisateurIntrouvable='Aucun client trouvé avec ce nom';
+        }
+        
 
         //logic bour barre de recherche
 /*          $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
  */            
 
-        return view('livewire.client-crud');
+        return view('livewire.client-crud',['clients'=>$clients]);
     }
 }
