@@ -244,6 +244,8 @@ class ClientCrud extends Component
     
     $query = Client::query();
     $this->utilisateurIntrouvable =null;
+
+
     if (!empty($this->Nom_a_Chercher)) {
         $query->where('nom', 'like', '%' . $this->Nom_a_Chercher . '%');
        
@@ -257,8 +259,9 @@ class ClientCrud extends Component
         if(!empty($this->Nom_a_Chercher)&& $clients->isEmpty()){
             $this->utilisateurIntrouvable='Aucun client trouvé avec ce nom';
         }
-        
 
+
+        
         //logic bour barre de recherche
 /*          $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
  */            

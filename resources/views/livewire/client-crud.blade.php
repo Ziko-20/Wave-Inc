@@ -234,6 +234,7 @@
         </table>
        
     </div>
+     
 {{-- Contacter client  --}}   
     <div class="flex flex-col items-center justify-between mt-12 gap-5">
         <div class="text-2xl text-green-600">Contacter le Client <span class="text-blue-800 ">{{ $clientselectionner->nom }}</span></div>
