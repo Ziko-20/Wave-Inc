@@ -21,7 +21,7 @@
     <div class="flex  mt-14 justify-between ml-12 mr-8">
 
     {{-- Opérations Clients --}}
-    <div class="flex-row bg-white w-[320px] h-[200px] rounded-[32px] ">
+    <div class="flex-row bg-white w-[340px] h-[200px] rounded-[32px] ">
         <div class="bg-[#EDEEF5] w-[50px] h-[50px] rounded-[11px] mt-4 ml-6 flex items-center justify-center">
                 <span class="material-symbols-outlined text-[40px] ">person</span> 
         </div>
@@ -49,7 +49,7 @@
 
 </span> --}}
     {{-- Dashboard --}}
-    <div class="flex-row bg-white w-[320px] h-[200px] rounded-[32px] ">
+    <div class="flex-row bg-white w-[340px] h-[200px] rounded-[32px] ">
          <div class="bg-[#EDEEF5] w-[50px] h-[50px] rounded-[11px] mt-4 ml-6 flex items-center justify-center">
                 <span class="material-symbols-outlined text-[40px] ">bar_chart_4_bars</span> 
 

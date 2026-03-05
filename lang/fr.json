@@ -13,7 +13,18 @@
     "Add :name": "Ajouter :name",
     "Admin": "Administrateur",
 
-    "Client":"Client fr",
+    "ReturnListe":"Retour à la liste",
+
+    "AjouterPaiment":"Ajouter",
+    "Montant_Paiment":"montant",
+    "date_paiment":"date paiment",
+    "paimentcl":"paiment",
+    
+    "HisPaiment":"Historique de paiments",
+
+    "paymentdeleted":"le paiment est supprimer avec succes",
+
+    "Client":"Client",
 
     "BigTitleDash":"Bienvenue dans",
     "smallTitleDash":"Client",

@@ -11,6 +11,7 @@
     "Action": "Action",
     "Add": "Add",
 
+    "ReturnListe":"Return to the liste",
 
     "Client":"Client",
      "BigTitleDash": "Welcome to",
@@ -24,9 +25,19 @@
     "card2title": "Subscriptions & Payments",
     "card2Description": "Manage transactions and manual payments",
 
+    "paimentcl":"payment",    
     "card3title": "Dashboard",
     "card3Description": "",
     "ClientsNumber":"Clients Number",
+
+    "HisPaiment":"payment History",
+
+    "paymentdeleted":"The payment is deleted successfuly",
+
+    "AjouterPaiment": "Add",
+"Montant_Paiment": "Payment Amount",
+"date_paiment": "Payment Date",
+
 
     "Emailclient":"Email",				 		
     "Nom": "Name",

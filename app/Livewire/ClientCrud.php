@@ -3,6 +3,8 @@
 namespace App\Livewire;
 use App\Models\Client;
 
+use App\Models\Payment;
+
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -52,6 +54,13 @@ class ClientCrud extends Component
     
 
     public $utilisateurIntrouvable=null;
+    public $FormAjPaiment=false;
+
+    public $montant = null;
+    public $date_payment = null;
+    public $status_payment = 'en_attente';
+    public $Id_clientHis = null;
+    public $deletedPayment=false;
 ///////////////////////////////////////// ////////////////////////////////////////////////////////////////////////
     public function loadClients(){
         $this->clients=Client::all();
@@ -111,7 +120,7 @@ class ClientCrud extends Component
         $this->showDelete=false;
         $this->delete_id=null;
 
-        /* $this->loadClients(); */
+        /*$this->loadClients();*/
        session()->flash('deleted','Le client a été supprimé avec succès');
 
 
@@ -178,7 +187,7 @@ class ClientCrud extends Component
     public function CacherFormUpdate(){
         $this->showUpdateForm=false;
     }
-   
+    
  //filtration par status
 
     
@@ -237,12 +246,70 @@ class ClientCrud extends Component
          ]);
     }  */
 ///////////////////////////////
-   
- //////////////////////////////
+    /* Ajouter paiment */
+
+
+    public function FormPaiment($client_id){
+
+        $this->Id_clientHis=$client_id;
+        
+
+        ///champss
+        $this->montant=null;
+        $this->date_payment=now();
+        $this->status_payment='en_attente';
+
+         $this->showHistory = false;
+        $this->FormAjPaiment=true;
+    }
+        public function FermerFormPaiment(){
+            
+            
+
+            $this->reset([
+                'montant',
+                'date_payment',
+                'status_payment',
+
+            ]);
+            $this->AffHistorique($this->Id_clientHis);
+        }
+
+        public function AjouterPaiment(){
+
+        $validerPaiment=$this->validate([
+            'montant' => 'required|numeric|min:0',
+            'date_payment' => 'required|date',
+            'status_payment' => 'required|in:payé,en_attente,en_retard',]
+            );
+        $validerPaiment['client_id'] = $this->Id_clientHis;
+
+        Payment::create($validerPaiment);
+            $this->FermerFormPaiment();
+            
+
+        session()->flash('paimentajouter','Le paiment a été ajouter avec succès');
+
+        }
+        public function SupprimerPaiment($id){
+            Payment::findOrFail($id)->delete();
+            $this->deletedPayment=true;
+            $this->Id_client=null;
+            
+            session()->flash('deletedPayment',__('paymentdeleted')  );
+        }
+
+
+
+
+
+    
+ ////////////// ////////////////
     public function render(){       
         
     
     $query = Client::query();
+
     $this->utilisateurIntrouvable =null;
 
 
@@ -259,6 +326,7 @@ class ClientCrud extends Component
         if(!empty($this->Nom_a_Chercher)&& $clients->isEmpty()){
             $this->utilisateurIntrouvable='Aucun client trouvé avec ce nom';
         }
+       
 
 
         
