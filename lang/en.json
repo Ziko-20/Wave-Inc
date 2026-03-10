@@ -33,10 +33,16 @@
     "HisPaiment":"payment History",
 
     "paymentdeleted":"The payment is deleted successfuly",
-
+        "addclient":"Add Client",
     "AjouterPaiment": "Add",
 "Montant_Paiment": "Payment Amount",
 "date_paiment": "Payment Date",
+
+
+    "ModifierPaiment": "Update",
+ 
+    "Affpaimenthist": "Payments",
+  "Afficencehist": "Licenses",
 
 
     "Emailclient":"Email",				 		
@@ -53,7 +59,9 @@
     "statusPaye": "Paid",
 "statusEnattente": "Pending",
 "statusEnretard": "Overdue",
-    
+    "ContacterClient":"Contact",
+
+    "ACCCEUIL":"Home",
 
 
 

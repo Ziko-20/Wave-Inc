@@ -32,7 +32,7 @@ new class extends Component
       <span class="material-symbols-outlined">
         home
     </span>
-      {{ __('Dashboard') }}
+      {{ __('ACCCEUIL') }}
     </a>
 
     <a href="{{ route('profile') }}"

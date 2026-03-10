@@ -10,6 +10,8 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 //use function Laravel\Prompts\password;
 
+use Spatie\Permission\Models\Permission;
+
 class RoleSeeder extends Seeder
 {
     /**
@@ -18,48 +20,37 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         
+        Permission::create(['name' => 'gerer contenu']);
+        Permission::create(['name' => 'supprimer manager']);
 
-//jai cree les roles 
-    Role::create(['name'=>'admin']);
+        
+        $admin   = Role::create(['name' => 'admin']);
+        $manager = Role::create(['name' => 'manager']);
+                   Role::create(['name' => 'client']);
 
-    Role::create(['name'=>'manager']);
+       
+        $admin->givePermissionTo(['gerer contenu', 'supprimer manager']);
+        $manager->givePermissionTo(['gerer contenu']);
+        
+        $user = User::create([
+            'name'     => 'admin',
+            'email'    => 'administrateur@test.com',
+            'password' => bcrypt('password')
+        ]);
+        $user->assignRole('admin');
 
-    Role::create(['name'=>'client']);
+        $user = User::create([
+            'name'     => 'utilisateur',
+            'email'    => 'utilisateur@test.com',
+            'password' => bcrypt('motdepasse')
+        ]);
+        $user->assignRole('client');
 
-//ensuite j ai attribuer les roles pour des utilisateurs
-    $user = User::create([
-        'name'=>'admin',
-
-        'email'=>'administrateur@test.com',
-
-        'password'=>bcrypt('password')
-    
-    ]);
-    $user->assignRole('admin');
-
-
-    $user = User::create(
-        [
-
-            'name'=>'utilisateur',
-
-            'email'=>'utilisateur@test.com',
-
-            'password'=>bcrypt('motdepasse')
-        ]
-    );
-    $user->assignRole('client');
-
-    $user=User::create(
-        [
-            'name'=>'manager',
-            'email'=>'manager@test.com',
-            'password'=>bcrypt('password')
-        ]
-    );
-    $user->assignRole('manager');
-
-
-    
+        $user = User::create([
+            'name'     => 'manager',
+            'email'    => 'manager@test.com',
+            'password' => bcrypt('password')
+        ]);
+        $user->assignRole('manager');
     }
 }

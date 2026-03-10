@@ -15,11 +15,19 @@ class Client extends Model
         'telephone',
         'statut_paiement',
         'date_maintenance',
-        'licences_count'
+        'licences_count',
+
+         'relance_flag',    
+        'date_relance',    
+        'note_relance'
+        
     ];
 
     public function payments(){
         return $this->hasMany(Payment::class);
+    }
+    public function license(){
+        return $this->hasMany(licenses::class);
     }
     
 

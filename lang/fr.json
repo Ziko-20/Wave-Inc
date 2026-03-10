@@ -14,7 +14,7 @@
     "Admin": "Administrateur",
 
     "ReturnListe":"Retour à la liste",
-
+    "addclient":"Ajouter Client",
     "AjouterPaiment":"Ajouter",
     "Montant_Paiment":"montant",
     "date_paiment":"date paiment",
@@ -48,13 +48,20 @@
 
     "Téléphone":"Téléphone",
 
+"Affpaimenthist": "Paiements",
+  "Afficencehist": "Licences",
+
+  
     "Statut": "Status",
   "Date": "Date de maintenance",
   
   "Licences": "Licenses",
   "Actions": "Actions",
 
+    "ModifierPaiment": "Modifier",
 
+    "ContacterClient":"Contacter",
+    "ACCCEUIL":"Acceuil",
     "btnModifier": "Modifier",
 
       "statusTous": "Tous",

@@ -15,9 +15,13 @@ return new class extends Migration
             
             $table->id();
             $table->string('nom');
-            $table->integer('quantiter_disponible');
+            $table->integer('quantite_disponible');
             $table->foreignId('client_id');
-            $table->date('date_d\'assignation');
+            
+            $table->date('date_assignation');
+
+
+          /*   $table->date('date_d\'assignation'); */
 
 
             $table->timestamps();

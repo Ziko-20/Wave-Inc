@@ -27,6 +27,11 @@ return new class extends Migration
 
             $table->timestamps();
         });
+        Schema::table('clients', function (Blueprint $table) {
+            $table->boolean('relance_flag')->default(false);   
+            $table->date('date_relance')->nullable();          
+            $table->text('note_relance')->nullable();        
+});
     }
 
     /**
@@ -34,7 +39,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+     
+    Schema::table('clients', function (Blueprint $table) {
+        $table->dropColumn(['relance_flag', 'date_relance', 'note_relance']);
+    });
+
+    
+    Schema::dropIfExists('payments');
     }
 };
 

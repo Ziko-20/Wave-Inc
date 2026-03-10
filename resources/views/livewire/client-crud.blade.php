@@ -49,7 +49,8 @@
                 wire:model.defer="nom"
                 placeholder="Entrer le Nom & Prénom"
                 class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
-                text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+                text-slate-800 placeholder-slate-300 focus:border-blue-900 "> 
+@error('nom') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                 
                 </div>
     {{--  Email --}}
@@ -92,7 +93,8 @@
                     <option value="en_attente">⏳ {{ __('statusEnattente') }}</option>
                     <option value="en_retard">✗ {{ __('statusEnretard') }} </option>
                 </select>
-                @error('status') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+@error('statut_paiement') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
                 
                 </div>
     {{--  date--}}
@@ -143,10 +145,44 @@
     </div>
     </div>
 </div>
-                             {{-- PARTIE HISTORIQUE PAIMENTSS --}}
+                                         {{----------------------------- PARTIE HISTORIQUE PAIMENTSS ----------------------------------------}}
 
     @elseif($showHistory)
+        
+
     <div class="min-h-screen">
+        @if (session()->has('paimentajouter'))
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+         x-data="{ show: true }" x-show="show"
+         x-init="setTimeout(() => show = false, 2500)"
+         x-transition:leave="transition ease-in duration-500"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <p class="text-green-500 text-4xl text-center">{{ session('paimentajouter') }}</p>
+    </div>
+@endif
+
+@if (session()->has('deletedPayment'))
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+         x-data="{ show: true }" x-show="show"
+         x-init="setTimeout(() => show = false, 2500)"
+         x-transition:leave="transition ease-in duration-500"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <p class="text-red-500 text-4xl text-center">{{ session('deletedPayment') }}</p>
+    </div>
+@endif
+
+@if (session()->has('updatedPayment'))
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+         x-data="{ show: true }" x-show="show"
+         x-init="setTimeout(() => show = false, 2500)"
+         x-transition:leave="transition ease-in duration-500"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <p class="text-green-500 text-4xl text-center">{{ session('updatedPayment') }}</p>
+    </div>
+@endif
     <div class="flex   flex-row justify-between">
         <div class="flex flex-row py-8 pl-5">
             <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400"
@@ -186,28 +222,52 @@
        
             
         <div class="flex-row  rounded-xl">
-                    <table class=" border w-4/5 mx-auto mt-4 ">
+                   
                         <h1 class="text-center font-8xl font-bold mt-4">{{ __('HisPaiment') }}</h1>
+
+                        {{-- bouttons de nav  wire:click="AffHistorique({{ $client->id }})--}}
+
+                        <div class="flex flex-row gap-4 ml-[10%]">
+    
+    <button 
+        wire:click="AffHistorique({{  $clientselectionner->id }})"
+        class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+        <span class="material-symbols-outlined">attach_money</span>
+        {{ __('Affpaimenthist') }}
+    </button>
+
+    <button 
+        wire:click="AffLicenses({{ $clientselectionner->id }})"
+        class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+        <span class="material-symbols-outlined">vpn_key</span>
+        {{ __('Afficencehist') }}
+    </button>
+
+</div>
+                        
+                         <table class=" border  w-[80%] mx-auto mt-4 ">
             <thead class="rounded-lg">
                 
                 
                 <tr class="border ">
                         
-                    <td class="text-xs font-semibold   text-gray-400 uppercase  px-6 py-4 ">{{ __('Montant') }}</td>
-                    <td class="text-xs font-semibold   text-gray-400 uppercase px-6 py-4 ">{{ __('datePaiment') }}</td>
-                    <td class="text-xs font-semibold   text-gray-400 uppercase  px-6 py-4 ">{{ __('Statut') }}</td>
-                    <td colspan="2" class="text-xs font-semibold   text-gray-400 uppercase  px-6 py-4 ">{{ __('Actions') }}</td>
+                    <td class="text-xs font-semibold w-1/4  text-gray-400 uppercase  px-6 py-4 ">{{ __('Montant') }}</td>
+                    <td class="text-xs font-semibold w-1/4  text-gray-400 uppercase px-6 py-4 ">{{ __('datePaiment') }}</td>
+                    <td class="text-xs font-semibold w-1/4  text-gray-400 uppercase  px-6 py-4 ">{{ __('Statut') }}</td>
+                    <td  colspan="2" class="text-xs font-semibold w-1/4  text-gray-400 uppercase  px-6 py-4 ">{{ __('Actions') }}</td>
 
                 </tr>
             </thead>
             <tbody>
-                 @foreach ($clientselectionner -> payments as $payment )
+                @foreach ($clientselectionner -> payments as $payment )
+                
+
                 <tr class="border"> 
                    
                         
                     
                     <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment->montant}} MAD</td>
-                    <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment ->date_payment}} </td>
+                    <td class="px-6 py-4 text-gray-500 bg-slate-50">{{$payment->date_payment}} </td>
 
                     <td class="bg-slate-50 ">
                         @if($payment->status_payment == 'payé')
@@ -228,12 +288,14 @@
                             @endif
                         </td>
 
-                        {{--//////////// BOUTTON SUPPRIMER PAIMENT //////////--}}
-                        <td class="px-6 py-4 text-gray-500 bg-slate-50">
+                       
+                        <td class=" text-gray-500 bg-slate-50 flex gap-4  py-4">
+                            
+                            {{--//////////// BOUTTON SUPPRIMER PAIMENT //////////--}}
                             <button
                   wire:click="SupprimerPaiment({{  $payment->id }})"
           
-            class="flex items-center text-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+            class="flex items-center text-center  bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -241,9 +303,18 @@
                
 
             </button>
-        </td>
+        
                         {{--//////////// BOUTTON MODIFIER PAIMENT //////////--}}
-        <td>
+        
+            <button  
+                    wire:click="ModifierPaiment({{ $payment->id }})"
+
+            class="flex items-center  bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                {{ __('btnModifier') }}
+            </button>
 
 
 
@@ -256,12 +327,15 @@
             </tbody>
             
         </table>
+    
+   
+
        
     </div>
      
-{{-- Contacter client  --}}   
+{{--////////////////////////// Contacter client  //////////////////////////////////////--}}   
     <div class="flex flex-col items-center justify-between mt-12 gap-5 mb-8">
-        <div class="text-2xl text-green-600">Contacter le Client <span class="text-blue-800 ">{{ $clientselectionner->nom }}</span></div>
+         <div class="text-2xl text-green-600">{{ __('ContacterClient') }} <span class="text-blue-800 ">{{ $clientselectionner->nom }}</span></div>
 
         <div class="relative bg-white w-48 rounded-xl">
             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500">
@@ -312,6 +386,27 @@ check
         </div>
         
    </div>
+
+
+
+  
+
+   
+
+
+{{-- //////////////////////////////////LICENCES////////////////////////////////// --}}
+
+
+@elseif($showLicenses)
+<div class="min-h-screen">
+    <div class="flex   flex-row justify-between">
+        <div class="flex flex-row py-8 pl-5">
+            <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400"
+            wire:click="FermerLicenses">
+                ← Retour à la liste
+            </button>
+        </div>
+</div>
 {{--    //////////////////////////AJOUTER PAIMENT//////////////////////////////// --}}  
  @elseif ($FormAjPaiment)
 <div class="min-h-screen">
@@ -356,6 +451,8 @@ check
                 class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
                 text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
                 </div>
+                @error('montant') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
         
                
     {{--  date PAIMENT--}}
@@ -368,6 +465,8 @@ check
                 placeholder=""
                 class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
                 text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+                @error('date_payment') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
                  
 
                 
@@ -387,6 +486,7 @@ check
                     <option value="en_attente">⏳ {{ __('statusEnattente') }}</option>
                     <option value="en_retard">✗ {{ __('statusEnretard') }} </option>
                 </select>
+                @error('status_payment') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                  
             
             
@@ -406,8 +506,110 @@ check
 
 </div>
 
+</div>
 
-  </div>          
+
+  @elseif ($FormulaireModification)   
+  <div class="min-h-screen ">
+    <div class="flex gap-0">
+        <div class="flex flex-row py-8 pl-5">
+            <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400 hover:text-opacity-50"
+            wire:click="FermerFormPaiment">
+                ← {{ __("ReturnListe") }}
+            </button>
+        </div>
+    </div>
+    <div class="  bg-slate-100  flex items-center  justify-center   font-sans">
+   
+
+    <div class="bg-white rounded-2xl w-full max-w-lg p-10 mt">
+
+        <div class="flex items-center gap3  pb-6 mb-8 border-b border-slate-200 ">
+            <!--titre-->
+            <div class=" w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+
+            </div>
+            <h1 class="text-xl font-bold text-blue-900">{{ __('ModifierPaiment') }}<span class="text-green-500"> {{ __('paimentcl') }}</span>
+            </h1>
+        </div>
+
+            
+            
+            
+            <!-- formulaire -->
+        <form  class="flex flex-col gap-4">
+
+            {{-- MONTANT PAIMENT--}}
+           
+                <label for="" class="text-xs font-semibold uppercase">{{ __('Montant_Paiment') }}*</label> 
+                <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">attach_money</span> 
+                <input type="text"
+                wire:model="montant"
+
+                placeholder="0.00"
+                class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+                text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+@error('montant') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
+                </div>
+        
+               
+    {{--  date PAIMENT--}}
+                <label for="" class="text-xs font-semibold uppercase">{{ __('date_paiment') }}*</label>
+                
+                <input type="date"
+                wire:model="date_payment"
+
+                
+                placeholder=""
+                class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+                text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+@error('date_payment') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
+                 
+
+                
+                
+
+                
+    {{-- status  PAIMENT --}}
+                <label for="" class="text-xs font-semibold uppercase">{{ __('Statut') }}*</label>
+               
+
+                <select type="text"
+                placeholder=""
+                wire:model="status_payment"
+                class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
+                text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+                    <option value="payé">✓ {{ __('statusPaye') }}</option>
+                    <option value="en_attente">⏳ {{ __('statusEnattente') }}</option>
+                    <option value="en_retard">✗ {{ __('statusEnretard') }} </option>
+                </select>
+@error('status_payment') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
+                 
+            
+            
+            <button 
+            wire:click="ModifierPaimentsSubmit()"
+                class="bg-indigo-600 text-white rounded-xl py-3 font-semibold shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+                type="button">{{ __('ModifierPaiment') }}</button>
+            
+</form>
+
+        </div>
+
+    
+
+    
+    
+
+</div>
+
+    
+
+</div>   
     
 
 
@@ -454,9 +656,9 @@ check
         <form wire:submit.prevent="Ajouter" class="flex flex-col gap-6">
 
 
-            {{--  nom prenom --}}
+            {{--  nom  --}}
             <div class="flex flex-col gap-1.5">
-                <label for="" class="text-xs font-semibold">Nom & Prénom *</label>
+                <label for="" class="text-xs font-semibold">{{ ('Nom') }}*</label>
                 <div class="relative">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"> <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                 <input type="text"
@@ -464,9 +666,11 @@ check
                 placeholder="Entrer le Nom & Prénom"
                 class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
                 text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
+@error('nom') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
                 </div>
     {{--  Email --}}
-                <label for="" class="text-xs font-semibold">Adresse Email *</label>
+                <label for="" class="text-xs font-semibold">{{ __('email') }} *</label>
 
                 <div class="relative">
     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -482,7 +686,7 @@ check
 
                 </div>
     {{-- Tell--}}
-                <label for="" class="text-xs font-semibold">Téléphone *</label>
+                <label for="" class="text-xs font-semibold">{{ __('Téléphone') }} *</label>
                 <div class="relative">
     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.1 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -495,7 +699,7 @@ check
 
                 </div>
     {{-- status   --}}
-                <label for="" class="text-xs font-semibold">Statut Paiement *</label>
+                <label for="" class="text-xs font-semibold">{{ ('Statut') }} *</label>
                 <div class="relative">
 
                 <select type="text"
@@ -503,9 +707,9 @@ check
                 wire:model.defer="statut_paiement"
                 class="w-full h-12 rounded-xl pl-10 pr-4  bg-slate-50  border border-slate-200 text-sm
                 text-slate-800 placeholder-slate-300 focus:border-blue-900 ">  
-                    <option value="payé">✓ Payé</option>
-                    <option value="en_attente">⏳ En attente</option>
-                    <option value="en_retard">✗ En retard </option>
+                    <option value="payé">✓ {{ __('statusPaye') }}</option>
+                    <option value="en_attente">⏳ {{ __('statusEnattente') }}</option>
+                    <option value="en_retard">✗ {{ __('statusEnretard') }} </option>
                 </select>
                  @error('statut_paiement') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
 
@@ -561,7 +765,7 @@ check
                 <span class="material-symbols-outlined">
 add
 </span>
-                Ajouter client
+                {{ __('addclient') }}
             </button>
 
            {{--  boutton paiment --}}

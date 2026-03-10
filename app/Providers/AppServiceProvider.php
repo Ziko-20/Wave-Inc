@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Payment;
+use App\Observers\PaymentObserver;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,9 +24,10 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+  public function boot(): void
     {
         $this->configureDefaults();
+        Payment::observe(PaymentObserver::class); 
     }
 
     /**

@@ -28,7 +28,7 @@ class ClientCrud extends Component
         'email' => 'required|email|max:200',
         'telephone' => 'required|string|min:8|max:20',
         'statut_paiement' => 'required|in:payé,en_attente,en_retard',
-        'date_maintenance' => 'nullable|date',
+        'date_maintenance' => 'required|date',
         'licences_count' => 'required|integer|min:0|max:500',
     ];
 
@@ -61,6 +61,19 @@ class ClientCrud extends Component
     public $status_payment = 'en_attente';
     public $Id_clientHis = null;
     public $deletedPayment=false;
+    public $FormulaireModification=false;
+
+    public $payment_id = null;
+
+    public $clientselectionner_id = null;
+
+
+    public $showLicenses = false;
+    public $FormAjLicense = false;
+    public $nom_license = '';
+    public $quantite_disponible = 0;
+    public $date_assignation = null;
+    public $license_id = null;
 ///////////////////////////////////////// ////////////////////////////////////////////////////////////////////////
     public function loadClients(){
         $this->clients=Client::all();
@@ -149,11 +162,13 @@ class ClientCrud extends Component
 
     public function Update($Id_client){
 
-   $valide=$this->validate(['nom' => 'required|string|min:3|max:200',
+   $valide=$this->validate([
+    'nom' => 'required|string|min:3|max:200',
         'email' => 'required|email|max:200',
         'telephone' => 'required|string|min:8|max:20',
         'statut_paiement' => 'required|in:payé,en_attente,en_retard',
-        'date_maintenance' => 'nullable|date',
+            'date_maintenance' => 'required|date', 
+
         'licences_count' => 'required|integer|min:0|max:500',]);
 
     $client=Client::findOrFail($Id_client);
@@ -204,11 +219,15 @@ class ClientCrud extends Component
       /* HISTORIQUE DE PAYMEENTS */
       public function AffHistorique($clientId){
 
+      
 
         $client=Client::find($clientId);
+
         $this->clientselectionner=$client;
-        
-        $this->payments=$client->payments;
+       
+       $this->payments=$client->payments; 
+
+
         $this->showHistory=true;
         
 
@@ -223,29 +242,7 @@ class ClientCrud extends Component
 {
     $this->resetPage();
 }
-/*     public function FormPaiment($IdPaimentClient ){
-        $this->IdPaimentClient->$id;
-        $this->clientSelPaiment=Client::findOrFail($IdPaimentClient );
-        $this->id_paiment=null;
-        $this->montant='';
-        $this->date_payment=now();
-        $this->status_payment='en attente';
-        $this->PaymentForm=true;
-    }
-    public function AjouterPaiment(){
-       
 
-
-
-
-         $this->validate([
-              'montant' => 'required|numeric|min:0',
-              'date_paiement' => 'required|date',
-              'statut_payment' => 'required|in:payé,en_attente,en_retard',
-              'notes' => 'nullable|string|max:500',
-         ]);
-    }  */
-///////////////////////////////
     /* Ajouter paiment */
 
 
@@ -285,6 +282,7 @@ class ClientCrud extends Component
         $validerPaiment['client_id'] = $this->Id_clientHis;
 
         Payment::create($validerPaiment);
+
             $this->FermerFormPaiment();
             
 
@@ -299,12 +297,120 @@ class ClientCrud extends Component
             session()->flash('deletedPayment',__('paymentdeleted')  );
         }
 
+        
+         public function ModifierPaiment($id){
+                $this->showHistory = false;
+                $payment=Payment::findOrFail($id);
+
+                $this->payment_id = $id; 
+                $this->clientselectionner_id = $payment->client_id; 
+                $this->Id_clientHis = $payment->client_id;
+                $this->montant=$payment->montant;
+                $this->date_payment=$payment->date_payment;
+                $this->status_payment=$payment->status_payment;
+
+
+
+                $this->FormulaireModification=true;
+
+            }
+         public function ModifierPaimentsSubmit(){
+
+            $validerPaiment=$this->validate([
+            'montant' => 'required|numeric|min:0',
+            'date_payment' => 'required|date',
+            'status_payment' => 'required|in:payé,en_attente,en_retard',]
+            );
+
+             $payment = Payment::findOrFail($this->payment_id); 
+             $payment->update($validerPaiment);
+
+
+            $this->reset([
+                'montant',
+                'date_payment',
+                'status_payment'
+                
+            ]);
+            
+            $this->FormulaireModification=false;
+            $this->showHistory=true;
+             $this->AffHistorique($this->clientselectionner_id);
+
+             
+             session()->flash('updatedPayment', 'Paiement modifié avec succès');
+
+
+            }
+            
+
+
+            /* LICENCES */
+      public function AffLicenses($clientId) {
+
+            $this->clientselectionner = Client::find($clientId);
+            $this->Id_clientHis = $clientId;
+
+             $this->showHistory = false;
+             $this->showLicenses = true;
+            }
+
+
+            public function FormLicense($clientId){
+
+            $this->Id_clientHis = $clientId;
+            $this->nom_license = '';
+            $this->quantite_disponible = 0;
+
+            $this->date_assignation = now()->toDateString();
+            $this->showLicenses = false;
+    $this->FormAjLicense = true;
+}
+
+/*  Ajouter licences */
+
+        /* public function ListeLicences(){
+             $this->showLicenses = true;
+        } */
+        public function AjouterLicense(){
+
+        $this->validate([
+        'nom_license' => 'required|string|min:2',
+        'quantite_disponible' => 'required|integer|min:1',
+        'date_assignation' => 'required|date',
+    ]);
+
+
+            License::create([
+                'nom' => $this->nom_license,
+                'quantite_disponible' => $this->quantite_disponible,
+                'client_id' => $this->Id_clientHis,
+                'date_assignation' => $this->date_assignation,
+            ]);
+
+            $this->FormAjLicense = false;
+            $this->AffLicenses($this->Id_clientHis);
+            session()->flash('licenseAjoutee', 'Licence ajoutée avec succès');
+}
+
+
+
+
+ /*  */
+        public function FermerLicenses()
+        {
+            $this->showLicenses = false;
+            $this->FormAjLicense = false;
+            $this->showHistory=true;
+        }       
+
+
 
 
 
 
     
- ////////////// ////////////////
+ //////////////RENDERRR ////////////////
     public function render(){       
         
     
@@ -324,16 +430,17 @@ class ClientCrud extends Component
      $clients = $query->paginate(15);
 
         if(!empty($this->Nom_a_Chercher)&& $clients->isEmpty()){
+
             $this->utilisateurIntrouvable='Aucun client trouvé avec ce nom';
         }
        
+    
 
 
         
-        //logic bour barre de recherche
-/*          $this->clients= Client ::where('nom','like','%' .$this->Nom_a_Chercher .'%')->get();
- */            
+            
 
         return view('livewire.client-crud',['clients'=>$clients]);
+
     }
 }
