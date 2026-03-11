@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-
+use App\Models\license;
 use App\Models\Payment;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call([ ClientSeeder::class,]);
         $this->call(HistoriqueDePaiments::class);
+        $this->call( LicenseSeeder::class);
+               
+
 }
     }
 

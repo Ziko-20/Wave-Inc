@@ -46,6 +46,16 @@
     "Nom":"Nom",
     "Emailclient":"Email",	
 
+    "licencenom":"Nom de Licence",	
+    "licencequant":"Quantite disponible",	
+    "licencedate":"Date d'assignation",	
+    "ADDLICENCE":"Ajouter licence",	
+    "ADDLIC":"Ajouter",	
+    "LICENCE":"licence",	
+    "ADDPayment":" Ajouter paiment",	
+    
+   	
+
     "Téléphone":"Téléphone",
 
 "Affpaimenthist": "Paiements",

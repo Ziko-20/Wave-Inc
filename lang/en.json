@@ -43,9 +43,17 @@
  
     "Affpaimenthist": "Payments",
   "Afficencehist": "Licenses",
+"licencenom": "License Name",
+"licencequant": "Available Quantity",
+"licencedate": "Assignment Date",
+    "ADDLICENCE":"Add License",	
+"ADDPayment":"Add Payment",	
 
+"ADDLIC":"Add",	
+    "LICENCE":"license",	
 
     "Emailclient":"Email",				 		
+ 		 		
     "Nom": "Name",
 "Téléphone": "Phone",
 "Statut": "Payment Status",

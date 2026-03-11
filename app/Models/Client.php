@@ -27,7 +27,7 @@ class Client extends Model
         return $this->hasMany(Payment::class);
     }
     public function license(){
-        return $this->hasMany(licenses::class);
+        return $this->hasMany(license::class);
     }
     
 

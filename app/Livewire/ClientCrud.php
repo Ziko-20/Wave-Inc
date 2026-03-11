@@ -4,6 +4,7 @@ namespace App\Livewire;
 use App\Models\Client;
 
 use App\Models\Payment;
+use App\Models\license;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -364,7 +365,7 @@ class ClientCrud extends Component
 
             $this->date_assignation = now()->toDateString();
             $this->showLicenses = false;
-    $this->FormAjLicense = true;
+    $this->FormAjLicense = true; $this->showHistory = false;
 }
 
 /*  Ajouter licences */
