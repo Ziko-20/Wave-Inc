@@ -243,6 +243,15 @@
         {{ __('Afficencehist') }}
     </button>
 
+     <div class=""><button 
+                     wire:click="exportPaymentsPdf"
+
+                    class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+    <span class="material-symbols-outlined">
+download
+</span>
+                PDF           </button></div>
+
 </div>
                         
                          <table class=" border  w-[80%] mx-auto mt-4 ">
@@ -400,7 +409,7 @@ check
 @elseif($showLicenses)
 <div class="min-h-screen">
 
-    <div class="flex   flex-row justify-between">
+    <div class="flex   flex-row justify-between ">
         <div class="flex flex-row py-8 pl-5">
             <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400"
             wire:click="FermerLicenses">
@@ -1001,8 +1010,8 @@ check
     {{-- afffichage de clients --}}
 
 
- <div class="min-h-screen bg-gray-50 p-8">
-<div class="f{{-- lex flex-row gap-4 --}}">
+ <div class="min-h-screen  m-6">
+<div class="flex flex-row gap-4 ">
 
    {{--  boutton ajouter client --}}
      <button wire:click="ShowForm"
@@ -1012,6 +1021,18 @@ add
 </span>
                 {{ __('addclient') }}
             </button>
+           {{--  csv --}}
+                    <button 
+                     wire:click="exportCsv"
+
+                    class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-indigo-200 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+    <span class="material-symbols-outlined">
+    file_export
+    </span>
+                CSV           </button>
+                
+         
+       
 
            {{--  boutton paiment --}}
             {{--  <button 

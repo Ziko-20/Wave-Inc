@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 /* use App\Http\Controllers\ClientController; */
 use App\Livewire\ClientTrackDashboard;
 use App\Livewire\ClientCrud;
+use App\Livewire\ChartPaiments;
 
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language.switch');
 
@@ -13,6 +14,11 @@ Route::redirect('/', '/login');
 Route::get('/dashboard', ClientTrackDashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+
+Route::get('/chart', ChartPaiments::class)
+    ->middleware(['auth', 'verified'])
+    ->name('chart');
 
 Route::view('/profile', 'profile')
     ->middleware(['auth'])

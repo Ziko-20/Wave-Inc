@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 use App\Models\Client;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Payment;
 use App\Models\license;
 
@@ -75,7 +75,7 @@ class ClientCrud extends Component
     public $quantite_disponible = 0;
     public $date_assignation = null;
     public $license_id = null;
-///////////////////////////////////////// ////////////////////////////////////////////////////////////////////////
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
     public function loadClients(){
         $this->clients=Client::all();
   
@@ -405,8 +405,60 @@ class ClientCrud extends Component
             $this->showHistory=true;
         }       
 
+/////////////////////////CSV///////////////////////////////
+public function exportCsv()
+{
+    $clients = Client::all(); // ou ta query filtrée
+
+    $filename = 'clients-' . now()->format('Y-m-d') . '.csv';
+
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => "attachment; filename=\"$filename\"",
+    ];
+
+    $callback = function () use ($clients) {
+        $file = fopen('php://output', 'w');
+
+        // En-têtes CSV
+        fputcsv($file, ['ID', 'Nom', 'Email', 'Site', 'Date']);
+
+        foreach ($clients as $client) {
+            fputcsv($file, [
+                $client->id,
+                $client->name,
+                $client->email,
+                $client->site_url,
+                $client->created_at->format('d/m/Y'),
+            ]);
+        }
+
+        fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
+}
 
 
+
+
+
+public function exportPaymentsPdf()
+{
+    $client = $this->clientselectionner;
+    $payments = $client->payments;
+    $filename = 'paiements-' . $client->nom . '-' . now()->format('Y-m-d') . '.pdf';
+
+    $pdf = Pdf::loadView('pdf.payments', [
+        'client'   => $client,
+        'payments' => $payments,
+    ])->setPaper('a4', 'portrait');
+
+    return response()->streamDownload(
+        fn () => print($pdf->output()),
+        $filename
+    );
+}
 
 
 
