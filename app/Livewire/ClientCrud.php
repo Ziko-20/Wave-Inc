@@ -48,6 +48,7 @@ class ClientCrud extends Component
     public $clientselectionner=null;
 
     public $payments;
+    
     public $showHistory=false;
 //ajouter paiment
     public $PaymentForm=false;
@@ -493,7 +494,9 @@ public function exportPaymentsPdf()
         
             
 
-        return view('livewire.client-crud',['clients'=>$clients]);
+        return view('livewire.client-crud', [
+    'clients' => $clients,  
+]);
 
     }
 }

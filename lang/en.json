@@ -51,6 +51,29 @@
 
 "ADDLIC":"Add",	
     "LICENCE":"license",	
+    "Hislicense":"Historique de licences",	
+    
+
+    
+    "managers.badge": "Administration",
+    "managers.title": "Manager Management",
+    "managers.subtitle_add": "Add",
+    "managers.subtitle_delete": "& remove managers",
+    "managers.btn_add": "Add a manager",
+    "managers.cancel": "Cancel",
+    "managers.form_title": "New Manager",
+    "managers.field_name": "Name",
+    "managers.field_email": "Email",
+    "managers.field_password": "Password",
+    "managers.btn_confirm": "Confirm",
+    "managers.col_name": "Name",
+    "managers.col_email": "Email",
+    "managers.col_created": "Created at",
+    "managers.col_action": "Action",
+    "managers.btn_delete": "Delete",
+    "managers.confirm_delete": "Delete this manager?",
+    "managers.empty": "No managers found.",
+
 
     "Emailclient":"Email",				 		
  		 		

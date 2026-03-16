@@ -18,39 +18,28 @@ class RoleSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        
-        Permission::create(['name' => 'gerer contenu']);
-        Permission::create(['name' => 'supprimer manager']);
+{
+    // Permissions métier
+    $permissions = [
+        'clients.view', 'clients.create', 'clients.edit', 'clients.delete',
+        'abonnements.view', 'abonnements.create', 'abonnements.edit', 'abonnements.delete',
+        'paiements.view', 'paiements.create', 'paiements.edit', 'paiements.delete',
+        'licences.view', 'licences.create', 'licences.edit', 'licences.delete',
+        'managers.view', 'managers.create', 'managers.delete', // admin only
+    ];
 
-        
-        $admin   = Role::create(['name' => 'admin']);
-        $manager = Role::create(['name' => 'manager']);
-                   Role::create(['name' => 'client']);
-
-       
-        $admin->givePermissionTo(['gerer contenu', 'supprimer manager']);
-        $manager->givePermissionTo(['gerer contenu']);
-        
-        $user = User::create([
-            'name'     => 'admin',
-            'email'    => 'administrateur@test.com',
-            'password' => bcrypt('password')
-        ]);
-        $user->assignRole('admin');
-
-        $user = User::create([
-            'name'     => 'utilisateur',
-            'email'    => 'utilisateur@test.com',
-            'password' => bcrypt('motdepasse')
-        ]);
-        $user->assignRole('client');
-
-        $user = User::create([
-            'name'     => 'manager',
-            'email'    => 'manager@test.com',
-            'password' => bcrypt('password')
-        ]);
-        $user->assignRole('manager');
+    foreach ($permissions as $perm) {
+        Permission::firstOrCreate(['name' => $perm]);
     }
+
+    // Role manager = tout sauf managers.*
+    $manager = Role::firstOrCreate(['name' => 'manager']);
+    $manager->syncPermissions(
+        Permission::whereNotLike('name', 'managers.%')->get()
+    );
+
+    // Role admin = tout
+    $admin = Role::firstOrCreate(['name' => 'admin']);
+    $admin->syncPermissions(Permission::all());
+}
 }

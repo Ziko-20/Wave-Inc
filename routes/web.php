@@ -42,4 +42,8 @@ Route::get('/clients', ClientCrud::class)
 
 //Route::get('/ajouterrr',[ClientController::class,'ajout'])    ;
 
+// Routes admin uniquement
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/managers', \App\Livewire\GestionManagers::class)->name('managers.index');
+});
 require __DIR__.'/auth.php';

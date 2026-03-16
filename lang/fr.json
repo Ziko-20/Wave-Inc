@@ -45,7 +45,7 @@
     				 		
     "Nom":"Nom",
     "Emailclient":"Email",	
-
+"Hislicense": "License History",
     "licencenom":"Nom de Licence",	
     "licencequant":"Quantite disponible",	
     "licencedate":"Date d'assignation",	
@@ -54,7 +54,24 @@
     "LICENCE":"licence",	
     "ADDPayment":" Ajouter paiment",	
     
-   	
+   	"managers.badge": "Administration",
+    "managers.title": "Gestion des Managers",
+    "managers.subtitle_add": "Ajouter",
+    "managers.subtitle_delete": "& supprimer des managers",
+    "managers.btn_add": "Ajouter un manager",
+    "managers.cancel": "Annuler",
+    "managers.form_title": "Nouveau Manager",
+    "managers.field_name": "Nom",
+    "managers.field_email": "Email",
+    "managers.field_password": "Mot de passe",
+    "managers.btn_confirm": "Confirmer",
+    "managers.col_name": "Nom",
+    "managers.col_email": "Email",
+    "managers.col_created": "Créé le",
+    "managers.col_action": "Action",
+    "managers.btn_delete": "Supprimer",
+    "managers.confirm_delete": "Supprimer ce manager ?",
+    "managers.empty": "Aucun manager trouvé.",
 
     "Téléphone":"Téléphone",
 

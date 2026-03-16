@@ -36,6 +36,7 @@
                 {{-- @yield('content') --}}
                 {{ $slot }}
             </main>
+            <livewire:layout.footer />
         </div>
     </body>
 </html>
