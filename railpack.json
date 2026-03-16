@@ -1,5 +1,7 @@
 {
-  "php": {
-    "extensions": ["ctype", "curl", "dom", "fileinfo", "filter", "hash", "mbstring", "openssl", "pcre", "pdo", "session", "tokenizer", "xml", "bcmath"]
+  "phases": {
+    "install:composer": {
+      "cmds": ["composer install --optimize-autoloader --no-scripts --no-interaction --ignore-platform-reqs"]
+    }
   }
 }
