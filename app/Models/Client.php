@@ -10,6 +10,7 @@ class Client extends Model
         use HasFactory;
 
    protected $fillable=[
+        'user_id',
         'nom',
         'email',
         'telephone',
@@ -29,6 +30,11 @@ class Client extends Model
     public function license(){
         return $this->hasMany(license::class);
     }
-    
 
+    /**
+     * Get the user account associated with this client.
+     */
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

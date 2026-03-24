@@ -1,6 +1,6 @@
     <div>
         @if ($showUpdateForm)
-        <div class="min-h-screen">
+        <div class="min-h-screen  bg-slate-100">
 <div class="flex   ">
         <div class="flex flex-row py-8 pl-5">
             <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400"
@@ -11,7 +11,7 @@
  </div>
 
         <div class=" 
-    bg-slate-100
+   
     flex
     items-center
     justify-center
@@ -241,96 +241,103 @@
 
             </div>
 
-            {{-- Table avec scroll horizontal sur mobile --}}
-            <div class="overflow-x-auto px-4 sm:px-0 mt-4">
-                <table class="border w-full sm:w-[80%] mx-auto">
-                    <thead class="rounded-lg">
-                        <tr class="border">
-                            <td class="text-xs font-semibold text-gray-400 uppercase px-4 sm:px-6 py-4 whitespace-nowrap">{{ __('Montant') }}</td>
-                            <td class="text-xs font-semibold text-gray-400 uppercase px-4 sm:px-6 py-4 whitespace-nowrap">{{ __('datePaiment') }}</td>
-                            <td class="text-xs font-semibold text-gray-400 uppercase px-4 sm:px-6 py-4 whitespace-nowrap">{{ __('Statut') }}</td>
-                            <td colspan="2" class="text-xs font-semibold text-gray-400 uppercase px-4 sm:px-6 py-4 whitespace-nowrap">{{ __('Actions') }}</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($clientselectionner->payments as $payment)
-                        <tr class="border">
-                            <td class="px-4 sm:px-6 py-4 text-gray-500 bg-slate-50 whitespace-nowrap">{{ $payment->montant }} MAD</td>
-                            <td class="px-4 sm:px-6 py-4 text-gray-500 bg-slate-50 whitespace-nowrap">{{ $payment->date_payment }}</td>
-
-                            <td class="bg-slate-50 px-4 sm:px-6 py-4">
-                                @if($payment->status_payment == 'payé')
-                                    <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200 whitespace-nowrap">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
-                                        Payé
-                                    </span>
-                                @elseif($payment->status_payment == 'en_attente')
-                                    <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200 whitespace-nowrap">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></span>
-                                        En attente
-                                    </span>
-                                @elseif($payment->status_payment == 'en_retard')
-                                    <span class="inline-flex items-center gap-1.5 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200 whitespace-nowrap">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"></span>
-                                        En retard
-                                    </span>
-                                @endif
-                            </td>
-
-                            <td class="text-gray-500 bg-slate-50 py-4 px-4 sm:px-6">
-                                <div class="flex gap-2 sm:gap-4">
-                                    {{-- Supprimer --}}
-                                    <button
-                                        wire:click="SupprimerPaiment({{ $payment->id }})"
-                                        class="flex items-center text-center bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-3 sm:px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-
-                                    {{-- Modifier --}}
-                                    <button
-                                        wire:click="ModifierPaiment({{ $payment->id }})"
-                                        class="flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-3 sm:px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                        </svg>
-                                        <span class="hidden sm:inline">{{ __('btnModifier') }}</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            {{-- Table historique paiements --}}
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mx-4 sm:ml-[10%] sm:w-[80%] mt-8">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 border-b border-gray-100">
+                            <tr>
+                                <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('Montant') }}</th>
+                                <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('datePaiment') }}</th>
+                                <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('Statut') }}</th>
+                                <th class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            @foreach ($clientselectionner->payments as $payment)
+                            <tr class="hover:bg-indigo-50/40 transition-colors duration-150 group">
+                                <td class="px-6 py-4 text-gray-800 font-medium whitespace-nowrap">{{ $payment->montant }} MAD</td>
+                                <td class="px-6 py-4 text-gray-500 whitespace-nowrap">{{ $payment->date_payment }}</td>
+                                <td class="px-6 py-4">
+                                    @if($payment->status_payment == 'payé')
+                                        <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+                                            Payé
+                                        </span>
+                                    @elseif($payment->status_payment == 'en_attente')
+                                        <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block"></span>
+                                            En attente
+                                        </span>
+                                    @elseif($payment->status_payment == 'en_retard')
+                                        <span class="inline-flex items-center gap-1.5 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"></span>
+                                            En retard
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center justify-center gap-3">
+                                        {{-- Modifier --}}
+                                        <button
+                                            wire:click="ModifierPaiment({{ $payment->id }})"
+                                            class="flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-4 py-2 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5" title="{{ __('btnModifier') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
+                                            <span class="hidden sm:inline">{{ __('btnModifier') }}</span>
+                                        </button>
+                                        {{-- Supprimer --}}
+                                        <button
+                                            wire:click="SupprimerPaiment({{ $payment->id }})"
+                                            class="flex items-center bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-4 py-2 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5" title="Supprimer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {{-- Contacter client --}}
-            <div class="flex flex-col items-center justify-between mt-12 gap-5 mb-8 px-4">
-                <div class="text-xl sm:text-2xl text-green-600 text-center">
-                    {{ __('ContacterClient') }} <span class="text-blue-800">{{ $clientselectionner->nom }}</span>
+            <div class="mt-12 flex flex-col items-center gap-6 mb-12 px-4 w-full">
+                <div class="text-xl sm:text-2xl font-bold text-gray-800 text-center">
+                    {{ __('ContacterClient') }} <span class="text-indigo-600">{{ $clientselectionner->nom }}</span>
                 </div>
 
-                <div class="relative bg-white w-48 rounded-xl">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500">call</span>
-                    <p class="text-gray-600 pl-10 pt-2" id="telephone">{{ $clientselectionner->telephone }}</p>
-                    <button
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black pt-2"
-                        onclick="CopieData(this, 'telephone')">
-                        <span class="copyIcon material-symbols-outlined pt-1.5">copy_all</span>
-                        <span class="copiedIcon material-symbols-outlined hidden">check</span>
-                    </button>
-                </div>
+                <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center w-full max-w-2xl">
+                    <!-- Telephone Card -->
+                    <div class="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between p-3 sm:p-4 flex-1 group">
+                        <div class="flex items-center gap-3 sm:gap-4 overflow-hidden">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 border border-emerald-100">
+                                <span class="material-symbols-outlined">call</span>
+                            </div>
+                            <p class="text-gray-700 font-semibold text-sm sm:text-base tracking-wide truncate" id="telephone1">{{ $clientselectionner->telephone }}</p>
+                        </div>
+                        <button class="text-gray-400 hover:text-emerald-600 transition-colors p-2 rounded-xl hover:bg-emerald-50 ml-2 border border-transparent hover:border-emerald-100" onclick="CopieData(this, 'telephone1')" title="Copier">
+                            <span class="copyIcon material-symbols-outlined text-[20px]">content_copy</span>
+                            <span class="copiedIcon material-symbols-outlined text-[20px] hidden text-emerald-600">check_circle</span>
+                        </button>
+                    </div>
 
-                <div class="relative bg-white w-full max-w-xs sm:w-72 rounded-xl">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500">mail</span>
-                    <p class="text-gray-600 pl-10 pt-2 pr-10 break-all" id="email">{{ $clientselectionner->email }}</p>
-                    <button
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black pt-2"
-                        onclick="CopieData(this, 'email')">
-                        <span class="copyIcon material-symbols-outlined pt-1.5">copy_all</span>
-                        <span class="copiedIcon material-symbols-outlined hidden">check</span>
-                    </button>
+                    <!-- Email Card -->
+                    <div class="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between p-3 sm:p-4 flex-1 group">
+                        <div class="flex items-center gap-3 sm:gap-4 overflow-hidden pr-2">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-100">
+                                <span class="material-symbols-outlined">mail</span>
+                            </div>
+                            <p class="text-gray-700 font-semibold text-sm sm:text-base truncate" id="email1" title="{{ $clientselectionner->email }}">{{ $clientselectionner->email }}</p>
+                        </div>
+                        <button class="flex-shrink-0 text-gray-400 hover:text-blue-600 transition-colors p-2 rounded-xl hover:bg-blue-50 ml-2 border border-transparent hover:border-blue-100" onclick="CopieData(this, 'email1')" title="Copier">
+                            <span class="copyIcon material-symbols-outlined text-[20px]">content_copy</span>
+                            <span class="copiedIcon material-symbols-outlined text-[20px] hidden text-blue-600">check_circle</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -390,64 +397,73 @@ class="flex items-center gap-2 bg-[#4f46e5] hover:bg-[#261dcf] text-white font-s
             </button>
         </div>
 
-        {{-- Tableau scrollable sur mobile --}}
-        <div class="overflow-x-auto mx-4 mt-4">
-            <table class="border w-full sm:w-[80%] sm:mx-auto">
-                <thead>
-                    <tr class="border">
-                        <td class="text-xs font-semibold text-gray-400 uppercase px-4 py-4 whitespace-nowrap">{{ __('licencenom') }}</td>
-                        <td class="text-xs font-semibold text-gray-400 uppercase px-4 py-4 whitespace-nowrap">{{ __('licencequant') }}</td>
-                        <td class="text-xs font-semibold text-gray-400 uppercase px-4 py-4 whitespace-nowrap">{{ __('licencedate') }}</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($clientselectionner->license as $licence)
-                    <tr class="border">
-                        <td class="px-4 py-4 text-gray-500 bg-slate-50 text-sm">{{ $licence->nom }}</td>
-                        <td class="px-4 py-4 text-gray-500 bg-slate-50 text-sm">{{ $licence->quantite_disponible }}</td>
-                        <td class="px-4 py-4 text-gray-500 bg-slate-50 text-sm whitespace-nowrap">{{ $licence->date_assignation }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        {{-- Tableau Licences avec le style unifié --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mx-4 sm:ml-[10%] sm:w-[80%] mt-8">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-50 border-b border-gray-100">
+                        <tr>
+                            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('licencenom') }}</th>
+                            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('licencequant') }}</th>
+                            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-6 py-4 whitespace-nowrap">{{ __('licencedate') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        @foreach ($clientselectionner->license as $licence)
+                        <tr class="hover:bg-indigo-50/40 transition-colors duration-150 group">
+                            <td class="px-6 py-4 font-medium text-gray-800">{{ $licence->nom }}</td>
+                            <td class="px-6 py-4">
+                                <span class="inline-flex items-center justify-center bg-indigo-50 text-indigo-700 text-xs font-bold w-8 h-8 rounded-lg">
+                                    {{ $licence->quantite_disponible }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500 whitespace-nowrap">{{ $licence->date_assignation }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
      {{-- Contacter client --}}
-            <div class="flex flex-col items-center justify-between mt-12 gap-5 mb-8 px-4">
-                <div class="text-xl sm:text-2xl text-green-600 text-center">
-                    {{ __('ContacterClient') }} <span class="text-blue-800">{{ $clientselectionner->nom }}</span>
-                </div>
+     <div class="mt-12 flex flex-col items-center gap-6 mb-12 px-4 w-full">
+         <div class="text-xl sm:text-2xl font-bold text-gray-800 text-center">
+             {{ __('ContacterClient') }} <span class="text-indigo-600">{{ $clientselectionner->nom }}</span>
+         </div>
 
-                <div class="relative bg-white w-48 rounded-xl">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500">call</span>
-                    <p class="text-gray-600 pl-10 pt-2" id="telephone">{{ $clientselectionner->telephone }}</p>
-                    <button
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black pt-2"
-                        onclick="CopieData(this, 'telephone')">
-                        <span class="copyIcon material-symbols-outlined pt-1.5">copy_all</span>
-                        <span class="copiedIcon material-symbols-outlined hidden">check</span>
-                    </button>
-                </div>
+         <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center w-full max-w-2xl">
+             <!-- Telephone Card -->
+             <div class="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between p-3 sm:p-4 flex-1 group">
+                 <div class="flex items-center gap-3 sm:gap-4 overflow-hidden">
+                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 border border-emerald-100">
+                         <span class="material-symbols-outlined">call</span>
+                     </div>
+                     <p class="text-gray-700 font-semibold text-sm sm:text-base tracking-wide truncate" id="telephone2">{{ $clientselectionner->telephone }}</p>
+                 </div>
+                 <button class="text-gray-400 hover:text-emerald-600 transition-colors p-2 rounded-xl hover:bg-emerald-50 ml-2 border border-transparent hover:border-emerald-100" onclick="CopieData(this, 'telephone2')" title="Copier">
+                     <span class="copyIcon material-symbols-outlined text-[20px]">content_copy</span>
+                     <span class="copiedIcon material-symbols-outlined text-[20px] hidden text-emerald-600">check_circle</span>
+                 </button>
+             </div>
 
-                <div class="relative bg-white w-full max-w-xs sm:w-72 rounded-xl">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500">mail</span>
-                    <p class="text-gray-600 pl-10 pt-2 pr-10 break-all" id="email">{{ $clientselectionner->email }}</p>
-                    <button
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black pt-2"
-                        onclick="CopieData(this, 'email')">
-                        <span class="copyIcon material-symbols-outlined pt-1.5">copy_all</span>
-                        <span class="copiedIcon material-symbols-outlined hidden">check</span>
-                    </button>
-                </div>
-            </div>
-
+             <!-- Email Card -->
+             <div class="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between p-3 sm:p-4 flex-1 group">
+                 <div class="flex items-center gap-3 sm:gap-4 overflow-hidden pr-2">
+                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-100">
+                         <span class="material-symbols-outlined">mail</span>
+                     </div>
+                     <p class="text-gray-700 font-semibold text-sm sm:text-base truncate" id="email2" title="{{ $clientselectionner->email }}">{{ $clientselectionner->email }}</p>
+                 </div>
+                 <button class="flex-shrink-0 text-gray-400 hover:text-blue-600 transition-colors p-2 rounded-xl hover:bg-blue-50 ml-2 border border-transparent hover:border-blue-100" onclick="CopieData(this, 'email2')" title="Copier">
+                     <span class="copyIcon material-symbols-outlined text-[20px]">content_copy</span>
+                     <span class="copiedIcon material-symbols-outlined text-[20px] hidden text-blue-600">check_circle</span>
+                 </button>
+             </div>
+         </div>
+     </div>
 
 </div>
-
-
-
-
 
 {{-- //////////////////////////////////////////////////////////Form Ajouter Licence////////////////////////////////////////////////////////////// --}}
 
@@ -554,7 +570,7 @@ class="flex items-center gap-2 bg-[#4f46e5] hover:bg-[#261dcf] text-white font-s
 
 {{--    //////////////////////////AJOUTER PAIMENT//////////////////////////////// --}}  
  @elseif ($FormAjPaiment)
-<div class="">
+<div class=" bg-slate-100 min-h-screen">
     <div class="flex gap-0">
         <div class="flex flex-row py-8 pl-5">
             <button class=" border rounded-xl w-48 h-10 font-sm hover:bg-slate-400 hover:text-opacity-50"
@@ -1050,9 +1066,9 @@ error
                         <th class="text-left text-xs  font-semibold  text-gray-400 uppercase tracking-wider px-6 py-4">{{ __('Emailclient') }}</th>
                         <th class="text-left text-xs font-semibold   text-gray-400 uppercase tracking-wider px-6 py-4">{{ __('Téléphone') }}</th>
                         <th class="text-left text-xs  font-semibold   text-gray-400  uppercase tracking-wider px-6 py-4 ">{{ ('Statut') }}</th>
-                        <th class="text-center text-xs font-semibold   text-gray-400 uppercase tracking-wider px-6 py-4">{{ __('Date') }}</th>
+                        <th class="text-left text-xs font-semibold   text-gray-400 uppercase tracking-wider px-6 py-4">{{ __('Date') }}</th>
                         <th class="text-left text-xs font-semibold   text-gray-400 uppercase tracking-wider  px-6    py-4 ">{{ __('Licences') }}</th>
-                        <th colspan="3"  class="text-center text-xs   font-semibold text-gray-400 uppercase tracking-wider px-6 py-4" >{{ __('Actions') }}</th>
+                        <th colspan="4"  class="text-center text-xs   font-semibold text-gray-400 uppercase tracking-wider px-6 py-4" >{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="overflow-auto">
@@ -1114,13 +1130,10 @@ error
                         </td> --}}
                         <td>
 
-                            <button wire:click="AffHistorique({{ $client->id }})"
-            class="flex items-center gap-2  bg-teal-100  text-teal-600 hover:bg-teal-200 font-semibold text-sm px-5 py-2.5 rounded-xl border border-black-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"  stroke-linejoin="round"class="w-5 h-5">
-  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-  <circle cx="12" cy="12" r="3"/>
-</svg>
-                
+                            <button wire:click="AffHistorique({{ $client->id }})" title="Historique des paiements"
+            class="flex items-center gap-2 bg-teal-100 text-teal-700 hover:bg-teal-200 font-semibold text-sm px-4 py-2.5 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                Historique
             </button>
                         </td>
 
@@ -1148,9 +1161,26 @@ error
             </button>
             <div>
     
-
  
 </div>
+                </td>
+                
+                <td>
+                    @if(!$client->user_id)
+                    <button wire:click="openAccessModal({{ $client->id }})"
+                    class="flex items-center gap-2 bg-purple-50 hover:bg-purple-100 text-purple-600 font-semibold text-sm px-4 py-2.5 rounded-xl border border-purple-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 whitespace-nowrap">
+                        <span class="material-symbols-outlined w-4 h-4 text-[18px]">person_add</span>
+                        Générer Accès
+                    </button>
+                    @else
+                    <button wire:click="supprimerAcces({{ $client->id }})"
+                    class="flex items-center gap-2 bg-green-50 hover:bg-red-50 text-green-600 hover:text-red-500 font-semibold text-sm px-4 py-2.5 rounded-xl border border-green-200 hover:border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group whitespace-nowrap">
+                        <span class="material-symbols-outlined w-4 h-4 text-[18px] group-hover:hidden">check_circle</span>
+                        <span class="material-symbols-outlined w-4 h-4 text-[18px] hidden group-hover:block">person_remove</span>
+                        <span class="group-hover:hidden">Accès Actif</span>
+                        <span class="hidden group-hover:block">Révoquer</span>
+                    </button>
+                    @endif
                 </td>
                 
                 
@@ -1175,17 +1205,55 @@ error
             <div class="bg-white p-6 rounded-xl w-full max-w-md">
                 <p>Tu es sûr de supprimer ?</p>
 
-                <button wire:click="delete" class=" bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                <button wire:click="delete" class=" bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-sm px-5 py-2.5 rounded-xl border border-red-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 mt-4">
                     Oui supprimer
                 </button>
                 <button
                  wire:click="$set('showDelete', false)"
-                class="bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+                class="bg-white hover:bg-gray-100 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 mt-4">
                     Annuler
                 </button>
             </div>
         </div>
-            
+        @endif
+
+        @if ($showPasswordModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div class="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl">
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b">
+                    <span class="material-symbols-outlined text-purple-600 bg-purple-50 p-2 rounded-lg">vpn_key</span>
+                    <h2 class="text-xl font-bold text-gray-800">Accès Portail Client</h2>
+                </div>
+                
+                <p class="text-gray-600 mb-4 text-sm">
+                    Générez un mot de passe pour le compte client de <strong class="text-gray-800">{{ $clientToGiveAccess?->nom }}</strong>.
+                </p>
+
+                <div class="flex flex-col gap-4 mb-6">
+                    <div>
+                        <label class="text-xs font-semibold text-gray-600 uppercase">E-mail de connexion</label>
+                        <input type="text" disabled value="{{ $clientToGiveAccess?->email }}" class="w-full mt-1 h-10 rounded-lg bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed px-3">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-600 uppercase">Mot de passe provisoire</label>
+                        <div class="relative mt-1">
+                            <input type="text" wire:model="newClientPassword" class="w-full h-10 rounded-lg border-gray-300 focus:border-purple-500 focus:ring-purple-500 px-3 pr-10">
+                        </div>
+                        @error('newClientPassword') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        <p class="text-xs text-gray-400 mt-1">Copiez ce mot de passe avant de sauvegarder.</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t">
+                    <button wire:click="closeAccessModal" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
+                        Annuler
+                    </button>
+                    <button wire:click="confirmAccess" class="px-5 py-2 text-sm font-semibold text-white bg-purple-600 hover:bg-purple-700 shadow-md shadow-purple-200 rounded-xl transition-all hover:-translate-y-0.5">
+                        Confirmer la création
+                    </button>
+                </div>
+            </div>
+        </div>
         @endif
 
 

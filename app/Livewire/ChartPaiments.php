@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Payment;
 use App\Models\Client;
 use Livewire\Attributes\Layout;
+use Carbon\Carbon;
 
 class ChartPaiments extends Component
 {
@@ -26,7 +27,9 @@ class ChartPaiments extends Component
 
         $dataPayments = array_fill(0, 12, 0);
 
+        // Fetching payments only for 'payé' status to make the chart accurate
         $results = Payment::selectRaw('MONTH(date_payment) as month, SUM(montant) as total')
+            ->where('status_payment', '=', 'payé')
             ->whereYear('date_payment', $this->selectedYear)
             ->groupBy('month')
             ->get();
@@ -36,14 +39,20 @@ class ChartPaiments extends Component
         }
 
         $totalClients = Client::count();
+        
+        $mrr = Payment::where('status_payment', '=', 'payé')
+            ->whereMonth('date_payment', Carbon::now()->month)
+            ->whereYear('date_payment', Carbon::now()->year)
+            ->sum('montant');
 
         return view('livewire.chart-paiments', [
             'dataPayments'     => $dataPayments,
             'AnneeDisponibles' => $AnneeDisponibles,
             'totalClients'     => $totalClients,
-            'clientsPayes'     => Client::where('statut_paiement', 'payé')->count(),
-            'clientsEnAttente' => Client::where('statut_paiement', 'en_attente')->count(),
-            'clientsEnRetard'  => Client::where('statut_paiement', 'en_retard')->count(),
+            'clientsPayes'     => Client::where('statut_paiement', '=', 'payé')->count(),
+            'clientsEnAttente' => Client::where('statut_paiement', '=', 'en_attente')->count(),
+            'clientsEnRetard'  => Client::where('statut_paiement', '=', 'en_retard')->count(),
+            'mrr'              => $mrr,
         ]);
     }
 }

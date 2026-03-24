@@ -37,9 +37,12 @@ class ClientCrud extends Component
     public $showDelete=false;
 
    
-    public $Id_client=null;
     public $showUpdateForm=false;
     
+    // Auth vars
+    public $showPasswordModal = false;
+    public $clientToGiveAccess = null;
+    public $newClientPassword = '';
 
     public $statusVal='all';
 
@@ -464,6 +467,63 @@ public function exportPaymentsPdf()
 
 
     
+public function openAccessModal($id)
+{
+    $this->clientToGiveAccess = Client::findOrFail($id);
+    // Pre-fill with a random password that the admin can change if they want
+    $this->newClientPassword = \Illuminate\Support\Str::random(10);
+    $this->showPasswordModal = true;
+}
+
+public function closeAccessModal()
+{
+    $this->showPasswordModal = false;
+    $this->clientToGiveAccess = null;
+    $this->newClientPassword = '';
+}
+
+public function confirmAccess()
+{
+    $valider = $this->validate([
+        'newClientPassword' => 'required|string|min:6',
+    ]);
+
+    // Check if a user with this email already exists
+    $existingUser = \App\Models\User::where('email', $this->clientToGiveAccess->email)->first();
+    if ($existingUser) {
+        $this->closeAccessModal();
+        session()->flash('deleted', "Erreur : Ce client ou cet E-mail a déjà un compte utilisateur actif !");
+        return;
+    }
+
+    $user = \App\Models\User::create([
+        'name' => $this->clientToGiveAccess->nom,
+        'email' => $this->clientToGiveAccess->email,
+        'password' => \Illuminate\Support\Facades\Hash::make($this->newClientPassword),
+    ]);
+
+    $user->assignRole('client');
+    $this->clientToGiveAccess->update(['user_id' => $user->id]);
+
+    $this->closeAccessModal();
+
+    // Use a persistent flash or just normal flash
+    session()->flash('created', "Le compte client a été créé avec succès. N'oubliez pas de lui transmettre son mot de passe !");
+}
+
+public function supprimerAcces($id)
+{
+    $client = Client::findOrFail($id);
+    if ($client->user_id) {
+        $user = \App\Models\User::find($client->user_id);
+        if ($user) {
+            $user->delete();
+        }
+        $client->update(['user_id' => null]);
+        session()->flash('deleted', "L'accès client a été révoqué.");
+    }
+}
+
  //////////////RENDERRR ////////////////
     public function render(){       
         

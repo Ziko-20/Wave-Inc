@@ -10,7 +10,6 @@ use Illuminate\Validation\Rules\Password;
 use App\Models\Payment;
 use App\Observers\PaymentObserver;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     /**

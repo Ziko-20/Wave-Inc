@@ -1,13 +1,13 @@
-<footer class="bg-white border-t border-gray-100 font-sans">
+<footer class="bg-white border-t border-gray-200 font-sans mt-auto">
 
     {{-- Main --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-10 h-40">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-12 py-8">
 
         {{-- Branding --}}
         <div>
             <p class="text-sm font-medium text-gray-900 mb-1">Wave — Gestion Clients & Abonnements</p>
             <p class="text-xs text-gray-400 font-light leading-relaxed mb-5 max-w-xs">
-                Back-office interne pour la gestion des clients WordPress, paiements et licences Pro.
+                Votre espace de gestion sécurisé.
             </p>
             <div class="flex items-center gap-4">
                 <a href="https://www.wave.ma/" target="_blank"
@@ -65,7 +65,7 @@
 
     {{-- Bottom bar --}}
     <div class="flex items-center justify-between px-6 md:px-12 py-4 border-t border-gray-50 flex-wrap gap-3">
-        <span class="text-xs text-gray-300 font-light">© {{ date('Y') }} Wave — Usage interne uniquement</span>
+        <span class="text-xs text-gray-400 font-light">© {{ date('Y') }} Wave</span>
         <div class="flex items-center gap-2">
             <span class="text-xs text-gray-400 bg-gray-50 rounded px-2 py-1">Laravel 11</span>
             <span class="text-xs text-gray-400 bg-gray-50 rounded px-2 py-1">Livewire</span>

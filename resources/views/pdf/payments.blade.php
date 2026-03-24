@@ -31,15 +31,15 @@
 
     {{-- Header --}}
     <div class="header">
-        <h1>Rapport des Paiements</h1>
-        <p>Généré le {{ now()->format('d/m/Y à H:i') }}</p>
+        <h1>{{ __('Rapport des Paiements') }}</h1>
+        <p>{{ __('Généré le') }} {{ now()->format('d/m/Y à H:i') }}</p>
     </div>
 
     {{-- Infos client --}}
     <div class="client-info">
-        <p><strong>Client :</strong> {{ $client->nom }}</p>
-        <p><strong>Email :</strong> {{ $client->email }}</p>
-        <p><strong>Téléphone :</strong> {{ $client->telephone }}</p>
+        <p><strong>{{ __('Client') }} :</strong> {{ $client->nom }}</p>
+        <p><strong>{{ __('Email') }} :</strong> {{ $client->email }}</p>
+        <p><strong>{{ __('Téléphone') }} :</strong> {{ $client->telephone }}</p>
     </div>
 
     {{-- Tableau paiements --}}
@@ -47,9 +47,9 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Montant</th>
-                <th>Date</th>
-                <th>Statut</th>
+                <th>{{ __('Montant') }}</th>
+                <th>{{ __('Date') }}</th>
+                <th>{{ __('Statut') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -60,11 +60,11 @@
                 <td>{{ \Carbon\Carbon::parse($payment->date_payment)->format('d/m/Y') }}</td>
                 <td>
                     @if($payment->status_payment == 'payé')
-                        <span class="badge badge-paye">Payé</span>
+                        <span class="badge badge-paye">{{ __('statusPaye') }}</span>
                     @elseif($payment->status_payment == 'en_attente')
-                        <span class="badge badge-attente">En attente</span>
+                        <span class="badge badge-attente">{{ __('statusEnattente') }}</span>
                     @elseif($payment->status_payment == 'en_retard')
-                        <span class="badge badge-retard">En retard</span>
+                        <span class="badge badge-retard">{{ __('statusEnretard') }}</span>
                     @endif
                 </td>
             </tr>
@@ -74,10 +74,10 @@
 
     {{-- Total --}}
     <p class="total">
-        Total : {{ number_format($payments->sum('montant'), 2) }} MAD
+        {{ __('Total :') }} {{ number_format($payments->sum('montant'), 2) }} MAD
     </p>
 
-    <div class="footer">Document généré automatiquement</div>
+    <div class="footer">{{ __('Document généré automatiquement') }}</div>
 
 </body>
 </html>

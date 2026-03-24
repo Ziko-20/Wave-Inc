@@ -51,4 +51,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the client profile associated with the user.
+     */
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
 }

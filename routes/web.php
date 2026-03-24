@@ -11,22 +11,29 @@ Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name
 
 Route::redirect('/', '/login');
 
-Route::get('/dashboard', ClientTrackDashboard::class)
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Routes Back-Office réservées aux Admin et Managers
+Route::middleware(['auth', 'verified', 'role:admin|manager'])->group(function () {
+    Route::get('/dashboard', ClientTrackDashboard::class)->name('dashboard');
+    Route::get('/chart', ChartPaiments::class)->name('chart');
+    Route::get('/clients', ClientCrud::class)->name('clients.index');
+});
 
-
-Route::get('/chart', ChartPaiments::class)
-    ->middleware(['auth', 'verified'])
-    ->name('chart');
+// Route Espace Client réservée aux Clients
+Route::middleware(['auth', 'verified', 'role:client'])->group(function () {
+    Route::get('/hub', \App\Livewire\ClientHub::class)->name('client.hub');
+    Route::get('/mon-espace', \App\Livewire\ClientPortal::class)->name('client.portal');
+    Route::get('/boutique', \App\Livewire\LicenseShop::class)->name('license.shop');
+    
+    
+    // PayPal Routes
+    Route::get('/paypal/create/{offer}', [\App\Http\Controllers\PaypalController::class, 'createPayment'])->name('paypal.create');
+    Route::get('/paypal/capture', [\App\Http\Controllers\PaypalController::class, 'capturePayment'])->name('paypal.capture');
+    Route::get('/paypal/cancel', [\App\Http\Controllers\PaypalController::class, 'cancelPayment'])->name('paypal.cancel');
+});
 
 Route::view('/profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
-Route::get('/clients', ClientCrud::class)
-    ->middleware(['auth', 'verified'])
-    ->name('clients.index');
     //changer la langue
 
 
