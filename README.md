@@ -220,6 +220,6 @@ composer run test
 
 ## 👨‍💻 Auteur
 
-Développé par **[Votre Nom]** — Projet personnel / formation.
+Développé par Lemchaouri Zakaria — Projet de stage Pfe chez https://www.wave.ma/.
 
-> N'hésitez pas à ⭐ le repo si le projet vous inspire !
+
