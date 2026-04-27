@@ -87,7 +87,7 @@ GestionClients-Abonnements/
 - [Vite](https://vite.dev/) — Bundler frontend
 
 **Base de données**
-- SQLite (par défaut) — Configurable vers MySQL/PostgreSQL via `.env`
+- SQLite (par défaut) — Configurable vers MySQL via `.env`
 
 **Internationalisation**
 - 🇫🇷 Français / 🇬🇧 Anglais — Changement de langue à la volée
@@ -135,7 +135,7 @@ Les routes sont protégées par les middlewares `auth`, `verified` et `role:...`
 - PHP >= 8.2
 - Composer
 - Node.js >= 18
-- SQLite (inclus avec PHP) ou MySQL
+-  MySQL
 
 ### Installation
 
