@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
+import appLogo from '@/img/appLogo.jpeg'
 
 interface NavItem {
   to: string
@@ -37,12 +38,13 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-sm"
-            style={{ background: 'linear-gradient(135deg, #22419A 0%, #439670 100%)' }}>
-            GC
-          </div>
+          <img
+            src={appLogo}
+            alt="Wavy"
+            className="w-9 h-9 rounded-xl object-cover flex-shrink-0"
+          />
           <div>
-            <p className="text-white font-semibold text-sm leading-tight">GestionClients</p>
+            <p className="text-white font-semibold text-sm leading-tight">Wavy</p>
             <p className="text-white/40 text-xs">v2.0</p>
           </div>
         </div>

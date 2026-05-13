@@ -15,6 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // CORS — must run before everything else
+        $middleware->prepend(\Illuminate\Http\Middleware\HandleCors::class);
+
+        // Exclude API routes from CSRF verification
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
+
         // Sanctum SPA stateful domains
         $middleware->statefulApi();
 

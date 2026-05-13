@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
+import appLogo from '@/img/appLogo.jpeg'
 
 export default function LoginPage() {
   const [email, setEmail]       = useState('')
@@ -50,14 +51,13 @@ export default function LoginPage() {
         >
           {/* Header */}
           <div className="text-center mb-8">
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-xl mx-auto mb-4"
-              style={{ background: 'linear-gradient(135deg, #22419A 0%, #439670 100%)' }}
-            >
-              GC
-            </div>
-            <h1 className="text-white text-2xl font-bold">Connexion</h1>
-            <p className="text-white/50 text-sm mt-1">GestionClients — Espace sécurisé</p>
+            <img
+              src={appLogo}
+              alt="Wavy"
+              className="w-16 h-16 rounded-2xl object-cover mx-auto mb-4"
+            />
+            <h1 className="text-white text-2xl font-bold">Wavy</h1>
+            <p className="text-white/50 text-sm mt-1">Espace sécurisé — Connexion</p>
           </div>
 
           {/* Error */}

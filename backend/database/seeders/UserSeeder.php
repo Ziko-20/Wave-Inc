@@ -22,9 +22,11 @@ class UserSeeder extends Seeder
             ['email' => 'admin@test.com'],
             [
                 'name'     => 'Admin',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password123'),
             ]
         );
+        $admin->password = Hash::make('password123');
+        $admin->save();
         $admin->syncRoles('admin');
 
         // ── Manager ──────────────────────────────────────────────
@@ -32,9 +34,11 @@ class UserSeeder extends Seeder
             ['email' => 'manager@test.com'],
             [
                 'name'     => 'Manager',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password123'),
             ]
         );
+        $manager->password = Hash::make('password123');
+        $manager->save();
         $manager->syncRoles('manager');
 
         // ── Client ───────────────────────────────────────────────
@@ -42,9 +46,11 @@ class UserSeeder extends Seeder
             ['email' => 'client@test.com'],
             [
                 'name'     => 'Client Test',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password123'),
             ]
         );
+        $clientUser->password = Hash::make('password123');
+        $clientUser->save();
         $clientUser->syncRoles('client');
 
         // Link to a Client profile (create one if none linked)

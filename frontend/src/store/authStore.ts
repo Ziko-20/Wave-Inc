@@ -12,6 +12,7 @@ interface AuthState {
   token: string | null
   user: AuthUser | null
   isLoading: boolean
+  isRestored: boolean   // true once restoreSession() has run
 
   // Derived helpers
   isAuthenticated: () => boolean
@@ -27,6 +28,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   token: null,
   user: null,
   isLoading: false,
+  isRestored: false,
 
   isAuthenticated: () => !!get().token && !!get().user,
 
@@ -72,10 +74,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (token && raw) {
       try {
         const user = JSON.parse(raw) as AuthUser
-        set({ token, user })
+        set({ token, user, isRestored: true })
       } catch {
         sessionStorage.clear()
+        set({ isRestored: true })
       }
+    } else {
+      set({ isRestored: true })
     }
   },
 }))

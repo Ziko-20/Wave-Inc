@@ -1,4 +1,4 @@
-# GestionClients & Abonnements
+# Wavy — GestionClients & Abonnements
 
 Application de gestion de clients, paiements et licences — architecture découplée **Laravel REST API + React SPA**.
 
@@ -559,9 +559,9 @@ Créés par `php artisan db:seed --class=UserSeeder` (inclus dans `php artisan d
 
 | Rôle | Email | Mot de passe | Accès |
 |---|---|---|---|
-| **Admin** | `admin@test.com` | `password` | Tout |
-| **Manager** | `manager@test.com` | `password` | Dashboard, Clients, Revenus |
-| **Client** | `client@test.com` | `password` | Mon Espace, Boutique |
+| **Admin** | `admin@test.com` | `password123` | Tout |
+| **Manager** | `manager@test.com` | `password123` | Dashboard, Clients, Revenus |
+| **Client** | `client@test.com` | `password123` | Mon Espace, Boutique |
 
 ---
 

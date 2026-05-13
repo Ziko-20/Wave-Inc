@@ -15,12 +15,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Path aliases */
-    "baseUrl": ".",
+    /* Path aliases — resolved by Vite, declared here for TS intellisense */
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "ignoreDeprecations": "5.0",
 
     /* Linting */
     "noUnusedLocals": false,
